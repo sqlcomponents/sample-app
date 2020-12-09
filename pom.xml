@@ -24,7 +24,6 @@
       <artifactId>postgresql</artifactId>
       <version>42.2.18</version>
     </dependency>
-
   </dependencies>
 
   <build>
@@ -36,13 +35,11 @@
         <executions>
           <execution>
             <goals>
-              <goal>dependency-counter</goal>
+              <goal>generate-sources</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <scope>test</scope>
-        </configuration>
+
       </plugin>
     </plugins>
   </build>

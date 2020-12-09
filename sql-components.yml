@@ -1,0 +1,12 @@
+name: "Movie"
+url: "jdbc:postgresql://localhost:5432/moviedb"
+userName: "moviedb"
+password: "moviedb"
+schemaName: "moviedb"
+
+online: true
+beanIdentifier: "model"
+daoIdentifier: "store"
+daoSuffix: ""
+rootPackage: "org.example"
+cleanSource: true
