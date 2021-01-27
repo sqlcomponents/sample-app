@@ -4,7 +4,7 @@ userName: "moviedb"
 password: "moviedb"
 schemaName: "moviedb"
 
-online: true
+
 beanIdentifier: "model"
 daoIdentifier: "store"
 daoSuffix: ""
