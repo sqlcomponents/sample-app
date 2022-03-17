@@ -1,3 +1,4 @@
+# Connection Details
 name: "Movie"
 url: "jdbc:postgresql://localhost:5432/moviedb"
 userName: "moviedb"
@@ -5,6 +6,7 @@ password: "moviedb"
 schemaName: "moviedb"
 
 
+# Mapping Logic
 beanIdentifier: "model"
 daoIdentifier: "store"
 daoSuffix: ""
