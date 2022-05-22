@@ -1,10 +1,10 @@
 package org.sqlcomponents;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.example.MovieManager;
 import org.example.model.Movie;
 import org.example.store.MovieStore;
 import static org.example.store.MovieStore.*;
-import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -28,7 +28,7 @@ public class App {
         movie.setGenre("Action");
         movie.setTitle("Inception");
         movie.setImdbId("23");
-        movie.setYearOfRelease(((short) 2301));
+        movie.setYearOfRelease(2301.0);
         movie.setDirectedBy("Christopher Nolan");
 
         Movie ceateMovie = movieStore.insert().values(movie).returning();
@@ -74,8 +74,8 @@ public class App {
 
 
     private static DataSource getDataSource() {
-        PGSimpleDataSource ds = new PGSimpleDataSource();
-        ds.setServerNames(new String[]{"localhost"});
+        MysqlDataSource ds = new MysqlDataSource();
+        ds.setURL("jdbc:mysql://localhost:3308/moviedb?allowPublicKeyRetrieval=true");
         ds.setDatabaseName( "moviedb" );
         ds.setUser( "moviedb" );
         ds.setPassword( "moviedb" );

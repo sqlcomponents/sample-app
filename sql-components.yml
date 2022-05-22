@@ -1,6 +1,6 @@
 # Connection Details
 name: "Movie"
-url: "jdbc:postgresql://localhost:5432/moviedb"
+url: "jdbc:mysql://localhost:3308/moviedb?allowPublicKeyRetrieval=true"
 userName: "moviedb"
 password: "moviedb"
 schemaName: "moviedb"
