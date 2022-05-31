@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3308/sample-db?allowPublicKeyRetrieval=true
+    username: mysql-user
+    password: password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBC926D96C90030DD58429D2751AC1BDBBCAC1BDBBC
+    tokenExpirationMsec: 864000000
