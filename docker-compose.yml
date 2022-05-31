@@ -4,10 +4,10 @@ services:
   mysqldb:
     image: mysql:8.0.29
     environment:
-       MYSQL_DATABASE: moviedb
-       MYSQL_USER: moviedb
-       MYSQL_PASSWORD: moviedb
-       MYSQL_ROOT_PASSWORD: moviedb
+       MYSQL_DATABASE: sample-db
+       MYSQL_USER: mysql-user
+       MYSQL_PASSWORD: password
+       MYSQL_ROOT_PASSWORD: sample-root
     ports:
         - '3308:3306'
     volumes:

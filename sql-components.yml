@@ -1,9 +1,9 @@
 # Connection Details
 name: "Movie"
-url: "jdbc:mysql://localhost:3308/moviedb?allowPublicKeyRetrieval=true"
-userName: "moviedb"
-password: "moviedb"
-schemaName: "moviedb"
+url: "jdbc:mysql://localhost:3308/sample-db?allowPublicKeyRetrieval=true"
+userName: "mysql-user"
+password: "password"
+schemaName: "sample-db"
 
 
 # Mapping Logic
