@@ -1,7 +1,12 @@
 package com.example.security.services;
 
 import com.example.models.User;
-import com.example.repository.UserRepository;
+import org.example.MovieManager;
+import static org.example.store.UsersStore.username;
+import static org.example.store.UserRolesStore.userId;
+
+import org.example.model.UserRoles;
+import org.example.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,26 +16,46 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
-  UserRepository userRepository;
+  MovieManager movieManager;
 
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
-    return build(user);
+    Users user = null;
+    try {
+      user = movieManager.getUsersStore().select(username().eq(username)).stream().findFirst()
+                      .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+      return build(user);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
-  private UserDetailsImpl build(User user) {
-    List<GrantedAuthority> authorities = user.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+  private UserDetailsImpl build(Users user) throws SQLException {
+
+    List<UserRoles> userRoles = movieManager
+            .getUserRolesStore()
+            .select(userId().eq(user.getId()));
+
+    List<GrantedAuthority> authorities = userRoles.stream()
+            .map(userRole -> {
+              try {
+                return new SimpleGrantedAuthority(movieManager
+                        .getRolesStore()
+                        .find(userRole.getRoleId()).getName());
+              } catch (SQLException e) {
+                e.printStackTrace();
+              }
+              return null;
+            })
             .collect(Collectors.toList());
 
     return new UserDetailsImpl(
