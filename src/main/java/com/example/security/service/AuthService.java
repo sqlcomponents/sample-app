@@ -1,15 +1,13 @@
 package com.example.security.service;
 
-import com.example.models.ERole;
-import com.example.models.Role;
-import com.example.models.User;
 import com.example.payload.request.LoginRequest;
 import com.example.payload.request.SignupRequest;
 import com.example.payload.response.JwtResponse;
 import com.example.payload.response.MessageResponse;
-import com.example.repository.RoleRepository;
-import com.example.repository.UserRepository;
 import com.example.security.jwt.JwtUtils;
+import org.example.MovieManager;
+import org.example.model.UserRoles;
+import org.example.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,22 +16,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.example.store.RolesStore.name;
 
 @Service
 public class AuthService {
 
     @Autowired
+    MovieManager movieManager;
+
+    @Autowired
     AuthenticationManager authenticationManager;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -61,52 +57,36 @@ public class AuthService {
                 roles);
     }
 
-    public MessageResponse register(final SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-
-        }
-
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-
-        }
+    public MessageResponse register(final SignupRequest signUpRequest) throws SQLException {
+//        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+//
+//        }
+//
+//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+//
+//        }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        Users user = new Users();
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
+        user.setEmail(signUpRequest.getEmail());
+        user.setUsername(signUpRequest.getUsername());
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
 
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
+        final Users createduser = movieManager.getUsersStore().insert().values(user).returning();
 
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
 
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
-        userRepository.save(user);
+        List<UserRoles> userRoles = signUpRequest.getRole().stream().map(sRole -> {
+            UserRoles userRoles1 = new UserRoles();
+            userRoles1.setUserId(createduser.getId());
+            try {
+                userRoles1.setRoleId(movieManager.getRolesStore().select(name().eq(sRole)).stream().findFirst().get().getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return userRoles1;
+        }).collect(Collectors.toList());
+        movieManager.getUserRolesStore().insert().values(userRoles).execute();
 
         return new MessageResponse("User registered successfully!");
     }

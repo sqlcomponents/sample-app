@@ -36,7 +36,7 @@ class AuthServiceTest {
         signupRequest.setUsername(userName);
         signupRequest.setEmail("user@email.com");
         signupRequest.setPassword(password);
-        signupRequest.setRole(Set.of("admin"));
+        signupRequest.setRole(Set.of("ROLE_ADMIN"));
 
         authService.register(signupRequest);
 
