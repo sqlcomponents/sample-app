@@ -1,6 +1,5 @@
-package com.example.security.services;
+package com.example.security.service;
 
-import com.example.models.User;
 import org.example.MovieManager;
 import static org.example.store.UsersStore.username;
 import static org.example.store.UserRolesStore.userId;
