@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Set;
 
 @SpringBootTest
 class AuthServiceTest {
@@ -37,6 +36,7 @@ class AuthServiceTest {
         signupRequest.setUsername(userName);
         signupRequest.setEmail("user@email.com");
         signupRequest.setPassword(password);
+        signupRequest.setRole(Set.of("admin"));
 
         authService.register(signupRequest);
 
@@ -45,7 +45,7 @@ class AuthServiceTest {
         loginRequest.setPassword(password);
         JwtResponse jwtResponse = authService.authendicate(loginRequest);
 
-        Assertions.assertEquals(jwtResponse.getUsername(),userName,"JWT is not working");
+        Assertions.assertEquals(jwtResponse.getUsername(), userName, "JWT is not working");
 
     }
 }

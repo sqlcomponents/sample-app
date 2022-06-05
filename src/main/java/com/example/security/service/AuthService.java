@@ -11,7 +11,6 @@ import com.example.repository.RoleRepository;
 import com.example.repository.UserRepository;
 import com.example.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,7 +41,7 @@ public class AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
-    public JwtResponse authendicate(final LoginRequest loginRequest){
+    public JwtResponse authendicate(final LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                         loginRequest.getPassword()));
