@@ -3,10 +3,6 @@ spring:
     url: jdbc:mysql://localhost:3308/sample-db?allowPublicKeyRetrieval=true
     username: mysql-user
     password: password
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 app:
   auth:
