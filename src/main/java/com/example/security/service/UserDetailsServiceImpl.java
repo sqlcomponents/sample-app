@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = null;
         try {
-            user = movieManager.getUsersStore().select(username().eq(username)).stream().findFirst()
+            user = movieManager.getUsersStore().findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
             return build(user);
         } catch (SQLException e) {
@@ -42,14 +42,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<UserRoles> userRoles = movieManager
                 .getUserRolesStore()
-                .select(userId().eq(user.getId()));
+                .select(userId().eq(user.getId())).execute();
 
         List<GrantedAuthority> authorities = userRoles.stream()
                 .map(userRole -> {
                     try {
                         return new SimpleGrantedAuthority(movieManager
                                 .getRolesStore()
-                                .find(userRole.getRoleId()).getName());
+                                .find(userRole.getRoleId()).get().getName());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

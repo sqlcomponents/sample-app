@@ -80,7 +80,7 @@ public class AuthService {
             UserRoles userRoles1 = new UserRoles();
             userRoles1.setUserId(createduser.getId());
             try {
-                userRoles1.setRoleId(movieManager.getRolesStore().select(name().eq(sRole)).stream().findFirst().get().getId());
+                userRoles1.setRoleId(movieManager.getRolesStore().findByName(sRole).get().getId());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
