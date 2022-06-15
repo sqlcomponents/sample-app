@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 
+DROP TABLE IF EXISTS movie;
+
 CREATE TABLE `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
@@ -27,6 +29,21 @@ CREATE TABLE `user_roles` (
   CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+
+CREATE TABLE movie (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(80),
+    directed_by VARCHAR(80),
+    year_of_release NUMERIC(4),
+    rating NUMERIC(2,1),
+    genre VARCHAR(150),
+    imdb_id VARCHAR(15),
+    UNIQUE(imdb_id),
+    PRIMARY KEY ( id )
+);
 
 INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
