@@ -1,6 +1,6 @@
 package com.example.security.jwt;
 
-import com.example.security.service.UserDetailsServiceImpl;
+import com.example.security.service.UserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

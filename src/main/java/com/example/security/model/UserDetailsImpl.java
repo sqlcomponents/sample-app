@@ -1,4 +1,4 @@
-package com.example.security.service;
+package com.example.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

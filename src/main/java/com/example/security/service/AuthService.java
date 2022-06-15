@@ -5,6 +5,7 @@ import com.example.payload.request.SignupRequest;
 import com.example.payload.response.JwtResponse;
 import com.example.payload.response.MessageResponse;
 import com.example.security.jwt.JwtUtils;
+import com.example.security.model.UserDetailsImpl;
 import org.example.MovieManager;
 import org.example.model.UserRoles;
 import org.example.model.Users;
@@ -19,8 +20,6 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.example.store.RolesStore.name;
 
 @Service
 public class AuthService {
@@ -37,7 +36,7 @@ public class AuthService {
     @Autowired
     JwtUtils jwtUtils;
 
-    public JwtResponse authendicate(final LoginRequest loginRequest) {
+    public JwtResponse authenticate(final LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                         loginRequest.getPassword()));

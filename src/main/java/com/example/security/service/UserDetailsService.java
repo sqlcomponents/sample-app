@@ -1,5 +1,6 @@
 package com.example.security.service;
 
+import com.example.security.model.UserDetailsImpl;
 import org.example.MovieManager;
 import org.example.model.UserRoles;
 import org.example.model.Users;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.example.store.UserRolesStore.userId;
-import static org.example.store.UsersStore.username;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     @Autowired
     MovieManager movieManager;
 

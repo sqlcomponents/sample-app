@@ -43,7 +43,7 @@ class AuthServiceTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(userName);
         loginRequest.setPassword(password);
-        JwtResponse jwtResponse = authService.authendicate(loginRequest);
+        JwtResponse jwtResponse = authService.authenticate(loginRequest);
 
         Assertions.assertTrue(jwtResponse.getRoles().contains("ROLE_ADMIN"), "JWT is not working");
 
