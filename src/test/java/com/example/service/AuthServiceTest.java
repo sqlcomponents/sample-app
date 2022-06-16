@@ -25,8 +25,8 @@ class AuthServiceTest {
     @Test
     public void testAuth() throws SQLException {
 
-        movieManager.getUserRolesStore().deleteAll();
-        movieManager.getUsersStore().deleteAll();
+        movieManager.getUserRolesStore().delete().execute();
+        movieManager.getUsersStore().delete().execute();
 
         final String userName = "UserName";
         final String password = System.currentTimeMillis() + "";
