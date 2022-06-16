@@ -1,8 +1,8 @@
-package com.example.security.service;
+package com.example.service;
 
-import com.example.payload.request.LoginRequest;
-import com.example.payload.request.SignupRequest;
-import com.example.payload.response.JwtResponse;
+import com.example.payload.LoginRequest;
+import com.example.payload.SignupRequest;
+import com.example.payload.JwtResponse;
 import org.example.MovieManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

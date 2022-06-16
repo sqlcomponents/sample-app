@@ -1,4 +1,4 @@
-package com.example.security.service;
+package com.example.service;
 
 import com.example.security.model.UserDetailsImpl;
 import org.example.MovieManager;
@@ -19,17 +19,27 @@ import java.util.stream.Collectors;
 import static org.example.store.UserRolesStore.userId;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserDetailsService implements org.springframework.security
+                                    .core.userdetails.UserDetailsService {
+    /**
+     * MovieManager.
+     */
     @Autowired
-    MovieManager movieManager;
+    private MovieManager movieManager;
 
+    /**
+     * @param username a username.
+     * @return null
+     */
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username)
+                                  throws UsernameNotFoundException {
         Users user = null;
         try {
             user = movieManager.getUsersStore().selectByUsername(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+                    .orElseThrow(() -> new UsernameNotFoundException(
+                            "User Not Found with username: " + username));
             return build(user);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,7 +47,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         return null;
     }
 
-    private UserDetailsImpl build(Users user) throws SQLException {
+    private UserDetailsImpl build(final Users user) throws SQLException {
 
         List<UserRoles> userRoles = movieManager
                 .getUserRolesStore()

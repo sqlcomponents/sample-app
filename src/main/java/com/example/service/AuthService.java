@@ -1,9 +1,9 @@
-package com.example.security.service;
+package com.example.service;
 
-import com.example.payload.request.LoginRequest;
-import com.example.payload.request.SignupRequest;
-import com.example.payload.response.JwtResponse;
-import com.example.payload.response.MessageResponse;
+import com.example.payload.LoginRequest;
+import com.example.payload.SignupRequest;
+import com.example.payload.JwtResponse;
+import com.example.payload.MessageResponse;
 import com.example.security.jwt.JwtUtils;
 import com.example.security.model.UserDetailsImpl;
 import org.example.MovieManager;
@@ -24,27 +24,42 @@ import java.util.stream.Collectors;
 @Service
 public class AuthService {
 
+    /**
+     * MovieManager.
+     */
     @Autowired
-    MovieManager movieManager;
-
+    private MovieManager movieManager;
+    /**
+     * authenticationManager.
+     */
     @Autowired
-    AuthenticationManager authenticationManager;
-
+    private AuthenticationManager authenticationManager;
+    /**
+     * encoder.
+     */
     @Autowired
-    PasswordEncoder encoder;
-
+    private PasswordEncoder encoder;
+    /**
+     * jwtUtils.
+     */
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
+    /**
+     * @param loginRequest
+     * @return jwt
+     */
     public JwtResponse authenticate(final LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
                         loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication
+                                                   .getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
@@ -56,7 +71,12 @@ public class AuthService {
                 roles);
     }
 
-    public MessageResponse register(final SignupRequest signUpRequest) throws SQLException {
+    /**
+     * @param signUpRequest an signUpRequest.
+     * @return MessageResponse
+     */
+    public MessageResponse register(final SignupRequest signUpRequest)
+                                                 throws SQLException {
 //        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 //
 //        }
@@ -72,14 +92,17 @@ public class AuthService {
         user.setUsername(signUpRequest.getUsername());
         user.setPassword(encoder.encode(signUpRequest.getPassword()));
 
-        final Users createduser = movieManager.getUsersStore().insert().values(user).returning();
+        final Users createduser = movieManager.getUsersStore().insert()
+                                           .values(user).returning();
 
 
-        List<UserRoles> userRoles = signUpRequest.getRole().stream().map(sRole -> {
+        List<UserRoles> userRoles = signUpRequest.getRole()
+                                        .stream().map(sRole -> {
             UserRoles userRoles1 = new UserRoles();
             userRoles1.setUserId(createduser.getId());
             try {
-                userRoles1.setRoleId(movieManager.getRolesStore().selectByName(sRole).get().getId());
+                userRoles1.setRoleId(movieManager.getRolesStore()
+                             .selectByName(sRole).get().getId());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
