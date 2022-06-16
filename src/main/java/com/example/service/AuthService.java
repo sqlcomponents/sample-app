@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,8 +96,9 @@ public class AuthService {
         final Users createduser = movieManager.getUsersStore().insert()
                                            .values(user).returning();
 
-
-        List<UserRoles> userRoles = signUpRequest.getRole()
+        Set<String> roles = signUpRequest.getRole() == null
+                ? Set.of("ROLE_USER") : signUpRequest.getRole();
+        List<UserRoles> userRoles = roles
                                         .stream().map(sRole -> {
             UserRoles userRoles1 = new UserRoles();
             userRoles1.setUserId(createduser.getId());
