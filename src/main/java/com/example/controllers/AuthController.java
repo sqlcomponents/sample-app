@@ -5,6 +5,8 @@ import com.example.payload.SignupRequest;
 import com.example.payload.JwtResponse;
 import com.example.payload.MessageResponse;
 import com.example.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.sql.SQLException;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication",
+        description = "Resource to manage authentication")
 public class AuthController {
 
     /**
@@ -36,6 +39,7 @@ public class AuthController {
      * @param loginRequest
      * @return  loginRequest
      */
+    @Operation(summary = "Signin to a new User")
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(final @Valid
                                @RequestBody LoginRequest loginRequest) {
@@ -46,6 +50,7 @@ public class AuthController {
      * @param signUpRequest
      * @return loginRequest
      */
+    @Operation(summary = "Signup the User")
     @PostMapping("/signup")
     public ResponseEntity<MessageResponse> registerUser(final @Valid
                                      @RequestBody SignupRequest signUpRequest)
