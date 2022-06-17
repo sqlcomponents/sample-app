@@ -5,18 +5,14 @@ import com.example.payload.SignupRequest;
 import com.example.payload.JwtResponse;
 import com.example.payload.MessageResponse;
 import com.example.security.jwt.JwtUtils;
-import com.example.security.model.UserDetailsImpl;
 import org.example.MovieManager;
 import org.example.model.UserRoles;
 import org.example.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -30,11 +26,7 @@ public class AuthService {
      */
     @Autowired
     private MovieManager movieManager;
-    /**
-     * authenticationManager.
-     */
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
     /**
      * encoder.
      */
@@ -51,25 +43,14 @@ public class AuthService {
      * @return jwt
      */
     public JwtResponse authenticate(final LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()));
+        return jwtUtils.authenticate(loginRequest);
+    }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication
-                                                   .getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        return new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles);
+    /**
+     * @param reques
+     */
+    public void logout(final HttpServletRequest reques) {
+        jwtUtils.logout(reques);
     }
 
     /**

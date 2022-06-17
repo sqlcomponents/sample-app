@@ -93,7 +93,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(
                                     SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**")
+                .authorizeRequests().antMatchers("/api/auth/signup",
+                        "/api/auth/signin")
                 .permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/swagger-ui.html",

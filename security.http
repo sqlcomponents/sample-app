@@ -1,0 +1,21 @@
+@base = http://localhost:8080/api 
+
+#### Login 
+# @name login 
+POST {{base}}/auth/signin
+Content-Type: application/json
+
+{
+  "username": "mani",
+  "password": "mani12345"
+}
+
+#### Get as User
+GET {{base}}/test/user
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+#### Get as User
+POST {{base}}/auth/logout
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json

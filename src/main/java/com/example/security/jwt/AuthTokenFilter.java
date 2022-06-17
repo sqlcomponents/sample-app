@@ -15,10 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
-    /**
-     * value.
-     */
-    private final int value = 7;
+
     /**
      * Logger.
      */
@@ -39,7 +36,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     final HttpServletResponse response,
                                     final FilterChain filterChain)
             throws ServletException, IOException {
-        final String token = getToken(request);
+        final String token = jwtUtils.getToken(request);
         try {
             UsernamePasswordAuthenticationToken authentication =
                     jwtUtils.getAuthentication(token);
@@ -56,19 +53,5 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * Gets Token from HttpRequest.
-     * @param request
-     * @return token
-     */
-    private String getToken(final HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
 
-        if (StringUtils.hasText(headerAuth) && headerAuth
-                                    .startsWith("Bearer ")) {
-            return headerAuth.substring(value, headerAuth.length());
-        }
-
-        return null;
-    }
 }

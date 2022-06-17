@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.SQLException;
 
@@ -56,5 +57,17 @@ public class AuthController {
                                      @RequestBody SignupRequest signUpRequest)
                                       throws SQLException {
         return ResponseEntity.ok(authService.register(signUpRequest));
+    }
+
+
+    /**
+     * Logout.
+     * @return loginRequest
+     */
+    @Operation(summary = "Logout the User")
+    @PostMapping("/logout")
+    public ResponseEntity logout(final HttpServletRequest request) {
+        authService.logout(request);
+        return ResponseEntity.ok().build();
     }
 }
