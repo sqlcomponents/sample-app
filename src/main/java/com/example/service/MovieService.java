@@ -36,6 +36,7 @@ public class MovieService {
 
     /**
      * Reads Movie by Id.
+     * @param userName
      * @param id
      * @return movie
      */
@@ -46,6 +47,7 @@ public class MovieService {
 
     /**
      * Updates Movie By Id.
+     * @param userName
      * @param id
      * @param movie
      * @return updatedMovie
@@ -57,6 +59,7 @@ public class MovieService {
 
     /**
      * Deletes Movie by Id.
+     * @param userName
      * @param id
      * @return isDeleted
      */
@@ -67,6 +70,7 @@ public class MovieService {
 
     /**
      * Dletes all the movie.
+     * @param userName
      * @return noOfMoviesDeleted
      */
     public int delete(final String userName) {
@@ -75,10 +79,10 @@ public class MovieService {
 
     /**
      * Lists all the movies.
-     * @param manikanta
+     * @param userName
      * @return movies
      */
-    public List<Movie> list(String manikanta) {
+    public List<Movie> list(final String userName) {
         return null;
     }
 }

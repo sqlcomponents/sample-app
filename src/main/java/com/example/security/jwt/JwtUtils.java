@@ -1,6 +1,7 @@
 package com.example.security.jwt;
 
 import com.example.security.model.UserDetailsImpl;
+import com.example.service.UserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -9,8 +10,11 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -22,6 +26,12 @@ public class JwtUtils {
      */
     private static final Logger LOGGER =
             LoggerFactory.getLogger(JwtUtils.class);
+
+    /**
+     * UserDetailsService.
+     */
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * JWT Secret.
@@ -53,13 +63,34 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+    /**
+     * Gets Authentication from token.
+     * @param token
+     * @return authentication
+     */
+    public UsernamePasswordAuthenticationToken getAuthentication(
+            final String token) {
+        if (token != null && validateJwtToken(token)) {
+            String username = getUserNameFromJwtToken(token);
+
+            UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+            return authentication;
+        }
+        return null;
+    }
 
     /**
      * Get User Name from token.
      * @param token
      * @return userName
      */
-    public String getUserNameFromJwtToken(final String token) {
+    private String getUserNameFromJwtToken(final String token) {
         return Jwts.parser().setSigningKey(jwtSecret)
                 .parseClaimsJws(token).getBody().getSubject();
     }
@@ -69,7 +100,7 @@ public class JwtUtils {
      * @param authToken
      * @return isValidJWTToken
      */
-    public boolean validateJwtToken(final String authToken) {
+    private boolean validateJwtToken(final String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
