@@ -10,6 +10,11 @@ Content-Type: application/json
   "password": "mani12345"
 }
 
+#### Get the User
+GET {{base}}/auth/me
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
 #### Get as User
 GET {{base}}/test/user
 Authorization: Bearer {{login.response.body.accessToken}}

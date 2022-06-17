@@ -9,6 +9,7 @@ import org.example.MovieManager;
 import org.example.model.UserRoles;
 import org.example.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,16 @@ public class AuthService {
      */
     public void logout(final HttpServletRequest reques) {
         jwtUtils.logout(reques);
+    }
+
+    /**
+     * Get User Details.
+     *
+     * @param reques
+     * @return
+     */
+    public UserDetails me(final HttpServletRequest reques) {
+        return jwtUtils.me(reques);
     }
 
     /**

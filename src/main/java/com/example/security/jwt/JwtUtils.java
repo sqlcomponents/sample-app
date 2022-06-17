@@ -38,43 +38,37 @@ public class JwtUtils {
      */
     private static final Logger LOGGER =
             LoggerFactory.getLogger(JwtUtils.class);
-
+    /**
+     * value.
+     */
+    private final int value = 7;
     /**
      * UserDetailsService.
      */
     @Autowired
     private UserDetailsService userDetailsService;
-
     /**
      * JWT Secret.
      */
     @Value("${app.auth.tokenSecret}")
     private String jwtSecret;
-
     /**
      * JWT Expiration.
      */
     @Value("${app.auth.tokenExpirationMsec}")
     private int jwtExpirationMs;
-
     /**
      * authenticationManager.
      */
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    /**
-     * value.
-     */
-    private final int value = 7;
-
     @Autowired
     private CacheManager cacheManager;
 
     private Cache authCache;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.authCache = cacheManager.getCache("Auth");
     }
 
@@ -90,7 +84,7 @@ public class JwtUtils {
 
         String token = UUID.randomUUID().toString();
 
-        this.authCache.put(token,jwt);
+        this.authCache.put(token, jwt);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication
                 .getPrincipal();
@@ -107,13 +101,14 @@ public class JwtUtils {
 
     /**
      * Generate JWT Token.
+     *
      * @param authentication
      * @return jwtToken
      */
     private String generateJwtToken(final Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl)
-                                authentication.getPrincipal();
+                authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
@@ -126,28 +121,25 @@ public class JwtUtils {
 
     /**
      * Gets Authentication from jwt.
+     *
      * @param token
      * @return authentication
      */
     public UsernamePasswordAuthenticationToken getAuthentication(
             final String token) {
-        if (token != null) {
-            Cache.ValueWrapper valueWrapper = authCache.get(token);
-            if (valueWrapper != null) {
-                final String jwt = (String) valueWrapper.get();
-                if (jwt != null && validateJwtToken(jwt)) {
-                    String username = getUserNameFromJwtToken(jwt);
 
-                    UserDetails userDetails = userDetailsService
-                            .loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(
-                                    userDetails,
-                                    null,
-                                    userDetails.getAuthorities());
-                    return authentication;
-                }
-            }
+        final String jwt = getJWTToken(token);
+        if (jwt != null && validateJwtToken(jwt)) {
+            String username = getUserNameFromJwtToken(jwt);
+
+            UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+            return authentication;
         }
 
 
@@ -155,17 +147,19 @@ public class JwtUtils {
     }
 
     /**
-     * Get User Name from token.
-     * @param token
+     * Get User Name from jwtToken.
+     *
+     * @param jwtToken
      * @return userName
      */
-    private String getUserNameFromJwtToken(final String token) {
+    private String getUserNameFromJwtToken(final String jwtToken) {
         return Jwts.parser().setSigningKey(jwtSecret)
-                .parseClaimsJws(token).getBody().getSubject();
+                .parseClaimsJws(jwtToken).getBody().getSubject();
     }
 
     /**
      * validate JWT.
+     *
      * @param authToken
      * @return isValidJWTToken
      */
@@ -188,12 +182,47 @@ public class JwtUtils {
         return false;
     }
 
+    /**
+     * Logs Out user.
+     *
+     * @param reques
+     */
     public void logout(final HttpServletRequest reques) {
         authCache.evict(getToken(reques));
     }
 
     /**
+     * Get User Details.
+     *
+     * @param reques
+     * @return
+     */
+    public UserDetails me(final HttpServletRequest reques) {
+         return this.userDetailsService
+                 .loadUserByUsername(
+                         getUserNameFromJwtToken(
+                         getJWTToken(getToken(reques))));
+    }
+
+    /**
+     * Gets JWT Token.
+     *
+     * @param token
+     * @return jwtToken
+     */
+    private String getJWTToken(final String token) {
+        if (token != null) {
+            Cache.ValueWrapper valueWrapper = authCache.get(token);
+            if (valueWrapper != null) {
+                return (String) valueWrapper.get();
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets Token from HttpRequest.
+     *
      * @param request
      * @return token
      */
@@ -202,7 +231,7 @@ public class JwtUtils {
 
         if (StringUtils.hasText(headerAuth) && headerAuth
                 .startsWith("Bearer ")) {
-            return headerAuth.substring(value, headerAuth.length());
+            return headerAuth.substring(value);
         }
 
         return null;

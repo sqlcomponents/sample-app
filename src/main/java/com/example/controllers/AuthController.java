@@ -8,6 +8,8 @@ import com.example.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,5 +71,15 @@ public class AuthController {
     public ResponseEntity logout(final HttpServletRequest request) {
         authService.logout(request);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Get User Details.
+     * @return loginRequest
+     */
+    @Operation(summary = "Logout the User")
+    @GetMapping("/me")
+    public ResponseEntity<UserDetails> me(final HttpServletRequest request) {
+        return ResponseEntity.ok(authService.me(request));
     }
 }
