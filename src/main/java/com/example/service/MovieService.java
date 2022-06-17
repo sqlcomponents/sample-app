@@ -23,10 +23,12 @@ public class MovieService {
 
     /**
      * Creates a new Movie.
+     * @param userName
      * @param movie
      * @return createdMovie
      */
-    public Movie create(final Movie movie) {
+    public Movie create(final String userName,
+                        final Movie movie) {
         return null;
     }
 
@@ -35,7 +37,8 @@ public class MovieService {
      * @param id
      * @return movie
      */
-    public Movie read(final Long id) {
+    public Movie read(final String userName,
+                      final Long id) {
         return null;
     }
 
@@ -45,7 +48,8 @@ public class MovieService {
      * @param movie
      * @return updatedMovie
      */
-    public Movie update(final Long id, final Movie movie) {
+    public Movie update(final String userName,
+                        final Long id, final Movie movie) {
         return null;
     }
 
@@ -54,7 +58,16 @@ public class MovieService {
      * @param id
      * @return isDeleted
      */
-    public boolean delete(final Long id) {
+    public boolean delete(final String userName,
+                          final Long id) {
         return false;
+    }
+
+    /**
+     * Dletes all the movie.
+     * @return noOfMoviesDeleted
+     */
+    public int delete(final String userName) {
+        return 0;
     }
 }
