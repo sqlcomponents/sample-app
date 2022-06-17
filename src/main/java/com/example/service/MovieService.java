@@ -4,6 +4,8 @@ import org.example.model.Movie;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieService {
@@ -37,8 +39,8 @@ public class MovieService {
      * @param id
      * @return movie
      */
-    public Movie read(final String userName,
-                      final Long id) {
+    public Optional<Movie> read(final String userName,
+                                final Long id) {
         return null;
     }
 
@@ -69,5 +71,14 @@ public class MovieService {
      */
     public int delete(final String userName) {
         return 0;
+    }
+
+    /**
+     * Lists all the movies.
+     * @param manikanta
+     * @return movies
+     */
+    public List<Movie> list(String manikanta) {
+        return null;
     }
 }
