@@ -17,6 +17,34 @@ import java.util.Optional;
 public class MovieService {
 
     /**
+     * number THREE.
+     */
+    public static final int THREE = 3;
+    /**
+     * number FOUR.
+     */
+    public static final int FOUR = 4;
+    /**
+     * number FIVE.
+     */
+    public static final int FIVE = 5;
+    /**
+     * number SIX.
+     */
+    public static final int SIX = 6;
+    /**
+     * number TW0.
+     */
+    public static final int TWO = 2;
+    /**
+     * number ONE.
+     */
+    public static final int ONE = 1;
+    /**
+     * number SEVEN.
+     */
+    public static final int SEVEN = 7;
+    /**
      * Data Source.
      */
     private final DataSource dataSource;
@@ -45,17 +73,17 @@ public class MovieService {
         try (java.sql.Connection dbConnection = dataSource.getConnection();
             PreparedStatement preparedStatement = dbConnection
                     .prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-           preparedStatement.setString(1, movie.getTitle());
-           preparedStatement.setString(2, movie.getDirectedBy());
-           preparedStatement.setDouble(3, movie.getYearOfRelease());
-           preparedStatement.setDouble(4, movie.getRating());
-           preparedStatement.setString(5, movie.getGenre());
-           preparedStatement.setString(6, movie.getImdbId());
+           preparedStatement.setString(ONE, movie.getTitle());
+           preparedStatement.setString(TWO, movie.getDirectedBy());
+           preparedStatement.setDouble(THREE, movie.getYearOfRelease());
+           preparedStatement.setDouble(FOUR, movie.getRating());
+           preparedStatement.setString(FIVE, movie.getGenre());
+           preparedStatement.setString(SIX, movie.getImdbId());
 
-           if (preparedStatement.executeUpdate() == 1) {
+           if (preparedStatement.executeUpdate() == ONE) {
                ResultSet res = preparedStatement.getGeneratedKeys();
                if (res.next()) {
-                   insertedMovie = read(userName, res.getLong(1)).get();
+                   insertedMovie = read(userName, res.getLong(ONE)).get();
                }
            }
 
@@ -80,7 +108,7 @@ public class MovieService {
         try (java.sql.Connection dbConnection = dataSource.getConnection();
              PreparedStatement preparedStatement
                      = dbConnection.prepareStatement(query)) {
-            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(ONE, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -93,13 +121,13 @@ public class MovieService {
 
     private Movie rowMapper(final ResultSet resultSet) throws SQLException {
         Movie movie = new Movie();
-        movie.setId(resultSet.getLong(1));
-        movie.setTitle(resultSet.getString(2));
-        movie.setDirectedBy(resultSet.getString(3));
-        movie.setYearOfRelease(resultSet.getDouble(4));
-        movie.setRating(resultSet.getDouble(5));
-        movie.setGenre(resultSet.getString(6));
-        movie.setImdbId(resultSet.getString(7));
+        movie.setId(resultSet.getLong(ONE));
+        movie.setTitle(resultSet.getString(TWO));
+        movie.setDirectedBy(resultSet.getString(THREE));
+        movie.setYearOfRelease(resultSet.getDouble(FOUR));
+        movie.setRating(resultSet.getDouble(FIVE));
+        movie.setGenre(resultSet.getString(SIX));
+        movie.setImdbId(resultSet.getString(SEVEN));
         return movie;
 
     }
@@ -113,28 +141,34 @@ public class MovieService {
      */
     public Movie update(final String userName,
                         final Long id, final Movie movie) throws SQLException {
-        Movie updatedMovie = null ;
-        final String query = "UPDATE movie SET title = ? ,directed_by = ? ,year_of_release = ? ,rating = ? ,genre = ? ,imdb_id = ? WHERE id = ?";
+            Movie updatedmovie = null;
+            final String query = "UPDATE movie SET title = ? ,"
+                    + "directed_by = ? ,year_of_release = ?"
+                    + ",rating = ?, genre = ?,imdb_id = ? ,id = ?";
 
-        try (java.sql.Connection dbConnection = dataSource.getConnection();
-             PreparedStatement preparedStatement = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
-        {
-            preparedStatement.setString(1, movie.getTitle());
-            preparedStatement.setString(2, movie.getDirectedBy());
-            preparedStatement.setDouble(3, movie.getYearOfRelease());
-            preparedStatement.setDouble(4, movie.getRating());
-            preparedStatement.setString(5, movie.getGenre());
-            preparedStatement.setString(6, movie.getImdbId());
+            try (java.sql.Connection dbConnection = dataSource.getConnection();
+                PreparedStatement preparedStatement = dbConnection
+                        .prepareStatement(query, Statement
+                                .RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setLong(7, id);
-            if( preparedStatement.executeUpdate() == 1 ) {
-                ResultSet res = preparedStatement.getGeneratedKeys();
-                if (res.next()) {
-                    updatedMovie =  read(userName,res.getLong(1)).get();
+                preparedStatement.setString(ONE, movie.getTitle());
+                preparedStatement.setString(TWO, movie.getDirectedBy());
+                preparedStatement.setDouble(THREE, movie.getYearOfRelease());
+                preparedStatement.setDouble(FOUR, movie.getRating());
+                preparedStatement.setString(FIVE, movie.getGenre());
+                preparedStatement.setString(SIX, movie.getImdbId());
+
+                preparedStatement.setLong(SEVEN, id);
+                if (preparedStatement.executeUpdate() == ONE) {
+                    ResultSet res = preparedStatement.getGeneratedKeys();
+                    if (res.next()) {
+                        updatedmovie = read(userName, res.getLong(ONE)).get();
+                    }
                 }
             }
-        }
-        return updatedMovie;
+
+        return updatedmovie;
+
     }
 
     /**
@@ -151,10 +185,10 @@ public class MovieService {
         try (Connection dbConnection = dataSource.getConnection()) {
             try (PreparedStatement preparedStatement
                          = dbConnection.prepareStatement(query)) {
-                preparedStatement.setLong(1, id);
+                preparedStatement.setLong(ONE, id);
 
 
-                isDeleted = preparedStatement.executeUpdate() == 1;
+                isDeleted = preparedStatement.executeUpdate() == ONE;
             }
         }
 
@@ -171,7 +205,8 @@ public class MovieService {
 
         final String query = "DELETE FROM movie";
         try (java.sql.Connection dbConnection = dataSource.getConnection();
-             PreparedStatement preparedStatement = dbConnection.prepareStatement(query)){
+             PreparedStatement preparedStatement = dbConnection.
+                                                    prepareStatement(query)) {
 
             noOfDeletedMovies = preparedStatement.executeUpdate();
 
@@ -189,16 +224,16 @@ public class MovieService {
     public List<Movie> list(final String userName) throws SQLException {
         List<Movie> movies = new ArrayList<>();
 
-        final String query = "SELECT id,title,directed_by ,year_of_release ,rating ,genre ,imdb_id FROM movie";
+        final String query = "SELECT id,title,directed_by ,year_of_release "
+                + ",rating ,genre ,imdb_id FROM movie";
         try (java.sql.Connection dbConnection = dataSource.getConnection();
-        PreparedStatement preparedStatement = dbConnection.prepareStatement(query)){
+        PreparedStatement preparedStatement = dbConnection
+                        .prepareStatement(query)) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
-
+            while (resultSet.next()) {
                 movies.add(rowMapper(resultSet));
-
             }
         }
         return movies;
