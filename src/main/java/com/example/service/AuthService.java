@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -48,20 +47,20 @@ public class AuthService {
     }
 
     /**
-     * @param reques
+     * @param token
      */
-    public void logout(final HttpServletRequest reques) {
-        jwtUtils.logout(reques);
+    public void logout(final String token) {
+        jwtUtils.logout(token);
     }
 
     /**
      * Get User Details.
      *
-     * @param reques
+     * @param token
      * @return userdetails
      */
-    public UserDetails me(final HttpServletRequest reques) {
-        return jwtUtils.me(reques);
+    public UserDetails me(final String token) {
+        return jwtUtils.me(token);
     }
 
     /**

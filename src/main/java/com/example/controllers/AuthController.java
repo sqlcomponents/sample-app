@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.controllers.util.HttpUtil;
 import com.example.payload.LoginRequest;
 import com.example.payload.SignupRequest;
 import com.example.payload.JwtResponse;
@@ -70,7 +71,7 @@ public class AuthController {
     @Operation(summary = "Logout the User")
     @PostMapping("/logout")
     public ResponseEntity logout(final HttpServletRequest request) {
-        authService.logout(request);
+        authService.logout(HttpUtil.getToken(request));
         return ResponseEntity.ok().build();
     }
 
@@ -82,6 +83,6 @@ public class AuthController {
     @Operation(summary = "Logout the User")
     @GetMapping("/me")
     public ResponseEntity<UserDetails> me(final HttpServletRequest request) {
-        return ResponseEntity.ok(authService.me(request));
+        return ResponseEntity.ok(authService.me(HttpUtil.getToken(request)));
     }
 }

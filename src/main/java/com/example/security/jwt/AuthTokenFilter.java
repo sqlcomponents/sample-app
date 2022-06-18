@@ -1,4 +1,5 @@
 package com.example.security.jwt;
+import com.example.controllers.util.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                                     final HttpServletResponse response,
                                     final FilterChain filterChain)
             throws ServletException, IOException {
-        final String token = jwtUtils.getToken(request);
+        final String token = HttpUtil.getToken(request);
         try {
             UsernamePasswordAuthenticationToken authentication =
                     jwtUtils.getAuthentication(token);

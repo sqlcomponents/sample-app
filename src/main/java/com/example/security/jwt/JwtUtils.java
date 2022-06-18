@@ -22,10 +22,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -38,10 +36,7 @@ public class JwtUtils {
      */
     private static final Logger LOGGER =
             LoggerFactory.getLogger(JwtUtils.class);
-    /**
-     * value.
-     */
-    private final int value = 7;
+
     /**
      * UserDetailsService.
      */
@@ -200,23 +195,23 @@ public class JwtUtils {
     /**
      * Logs Out user.
      *
-     * @param reques
+     * @param token
      */
-    public void logout(final HttpServletRequest reques) {
-        authCache.evict(getToken(reques));
+    public void logout(final String token) {
+        authCache.evict(token);
     }
 
     /**
      * Get User Details.
      *
-     * @param reques
+     * @param token
      * @return userDetails
      */
-    public UserDetails me(final HttpServletRequest reques) {
+    public UserDetails me(final String token) {
          return this.userDetailsService
                  .loadUserByUsername(
                          getUserNameFromJwtToken(
-                         getJWTToken(getToken(reques))));
+                         getJWTToken(token)));
     }
 
     /**
@@ -235,20 +230,4 @@ public class JwtUtils {
         return null;
     }
 
-    /**
-     * Gets Token from HttpRequest.
-     *
-     * @param request
-     * @return token
-     */
-    public String getToken(final HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth
-                .startsWith("Bearer ")) {
-            return headerAuth.substring(value);
-        }
-
-        return null;
-    }
 }
