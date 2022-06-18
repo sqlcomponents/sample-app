@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 
 DROP TABLE IF EXISTS movie;
+DROP TABLE IF EXISTS actor;
 
 CREATE TABLE `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -31,8 +32,6 @@ CREATE TABLE `user_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-
-
 CREATE TABLE movie (
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(80),
@@ -44,6 +43,15 @@ CREATE TABLE movie (
     UNIQUE(imdb_id),
     PRIMARY KEY ( id )
 );
+
+CREATE TABLE actor (
+  actor_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(45) NOT NULL,
+  last_name VARCHAR(45) NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY  (actor_id),
+  KEY idx_actor_last_name (last_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
