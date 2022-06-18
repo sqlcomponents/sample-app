@@ -21,7 +21,6 @@ Content-Type: application/json
 }
 
 
-
 #### Get the User
 GET {{base}}/auth/me
 Authorization: Bearer {{login.response.body.accessToken}}

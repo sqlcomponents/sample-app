@@ -18,26 +18,25 @@ import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/movies")
 @Tag(name = "Movies", description = "Resource to manage movies")
-class MovieAPIcontroller {
+class MovieAPIController {
     /**
      * Original server.
      */
     private final MovieService movieService;
 
     /**
-     * MovieAPIcontroller.
+     * MovieAPIController.
      * @param theMovieService
      */
-    MovieAPIcontroller(final MovieService theMovieService) {
+    MovieAPIController(final MovieService theMovieService) {
         this.movieService = theMovieService;
     }
 
     @PostMapping
-    @Operation(summary = "create a new movie")
+    @Operation(summary = "Creates a new movie")
     public ResponseEntity<Movie> create(final Principal principal,
                                         @RequestBody final Movie movie)
                                         throws SQLException {
