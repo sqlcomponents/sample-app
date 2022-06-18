@@ -20,6 +20,8 @@ Content-Type: application/json
   "password": "mani12345"
 }
 
+
+
 #### Get the User
 GET {{base}}/auth/me
 Authorization: Bearer {{login.response.body.accessToken}}
@@ -27,6 +29,51 @@ Content-Type: application/json
 
 #### Get as User
 GET {{base}}/test/user
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+
+#### Creates a new Movie
+# @name movie 
+POST {{base}}/movies
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+{
+  "title": "Superman",
+  "directedBy": "Cameron",
+  "yearOfRelease": 2000,
+  "rating": 8.5,
+  "genre": "Action",
+  "imdbId": "*^&^&^"
+}
+
+#### Get a Movie
+GET {{base}}/movies/{{movie.response.body.id}}
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+#### Updates a Movie
+PUT {{base}}/movies/{{movie.response.body.id}}
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+{
+  "title": "spider man",
+  "directedBy": "marvel",
+  "yearOfRelease": 2021,
+  "rating": 8.5,
+  "genre": "adventure",
+  "imdbId": "spidy"
+}
+
+#### List Movies
+GET {{base}}/movies
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+#### Get a Movie
+DELETE {{base}}/movies/{{movie.response.body.id}}
 Authorization: Bearer {{login.response.body.accessToken}}
 Content-Type: application/json
 

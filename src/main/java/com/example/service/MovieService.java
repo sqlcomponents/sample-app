@@ -144,7 +144,7 @@ public class MovieService {
             Movie updatedmovie = null;
             final String query = "UPDATE movie SET title = ? ,"
                     + "directed_by = ? ,year_of_release = ?"
-                    + ",rating = ?, genre = ?,imdb_id = ? ,id = ?";
+                    + ",rating = ?, genre = ?,imdb_id = ? where id = ?";
 
             try (java.sql.Connection dbConnection = dataSource.getConnection();
                 PreparedStatement preparedStatement = dbConnection
