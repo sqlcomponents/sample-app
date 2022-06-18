@@ -58,7 +58,7 @@ public class AuthService {
      * Get User Details.
      *
      * @param reques
-     * @return
+     * @return userdetails
      */
     public UserDetails me(final HttpServletRequest reques) {
         return jwtUtils.me(reques);

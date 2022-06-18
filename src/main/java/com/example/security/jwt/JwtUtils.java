@@ -62,16 +62,31 @@ public class JwtUtils {
      */
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    /**
+     * Cache Managemer.
+     */
     @Autowired
     private CacheManager cacheManager;
 
+    /**
+     * Cache to hold auth tokens.
+     */
     private Cache authCache;
 
+    /**
+     * Initialize Cache.
+     */
     @PostConstruct
     public void init() {
         this.authCache = cacheManager.getCache("Auth");
     }
 
+    /**
+     * Authenticate the login request.
+     * @param loginRequest
+     * @return jwtResponse
+     */
     public JwtResponse authenticate(final LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -195,7 +210,7 @@ public class JwtUtils {
      * Get User Details.
      *
      * @param reques
-     * @return
+     * @return userDetails
      */
     public UserDetails me(final HttpServletRequest reques) {
          return this.userDetailsService

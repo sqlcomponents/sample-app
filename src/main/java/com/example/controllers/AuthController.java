@@ -64,6 +64,7 @@ public class AuthController {
 
     /**
      * Logout.
+     * @param request
      * @return loginRequest
      */
     @Operation(summary = "Logout the User")
@@ -75,6 +76,7 @@ public class AuthController {
 
     /**
      * Get User Details.
+     * @param request
      * @return loginRequest
      */
     @Operation(summary = "Logout the User")
