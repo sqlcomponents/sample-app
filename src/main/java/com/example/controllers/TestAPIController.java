@@ -1,24 +1,24 @@
 package com.example.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Security Test Ground",
         description = "Resource to manage Security Testing")
 @RestController
 @RequestMapping("/api/test")
-public class TestController {
+class TestAPIController {
     /**
      * all.
      * @return content
      */
     @GetMapping("/all")
-    public String allAccess() {
-        return "Public Content.";
+    public ResponseEntity<String> allAccess() {
+        return ResponseEntity.ok("Public Content.");
     }
     /**
      * user.
@@ -26,8 +26,8 @@ public class TestController {
      */
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String userAccess() {
-        return "User Content.";
+    public ResponseEntity<String> userAccess() {
+        return ResponseEntity.ok("User Content.");
     }
     /**
      * mod.
@@ -35,8 +35,8 @@ public class TestController {
      */
     @GetMapping("/mod")
     @PreAuthorize("hasRole('MODERATOR')")
-    public String moderatorAccess() {
-        return "Moderator Board.";
+    public ResponseEntity<String> moderatorAccess() {
+        return ResponseEntity.ok("Moderator Board.");
     }
     /**
      * admin.
@@ -44,7 +44,7 @@ public class TestController {
      */
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin Board.";
+    public ResponseEntity<String> adminAccess() {
+        return ResponseEntity.ok("Admin Board.");
     }
 }

@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Authentication",
         description = "Resource to manage authentication")
-public class AuthController {
+class AuthAPIController {
 
     /**
      * Auth Service.
@@ -35,7 +34,7 @@ public class AuthController {
      * Builds Auth Controller.
      * @param anAuthService
      */
-    public AuthController(final AuthService anAuthService) {
+    AuthAPIController(final AuthService anAuthService) {
         this.authService = anAuthService;
     }
     /**
@@ -43,9 +42,9 @@ public class AuthController {
      * @param loginRequest
      * @return  loginRequest
      */
-    @Operation(summary = "Signin to a new User")
+    @Operation(summary = "Sign in with User credentials")
     @PostMapping("/signin")
-    public ResponseEntity<JwtResponse> authenticateUser(final @Valid
+    public ResponseEntity<JwtResponse> authenticateUser(final
                                @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.authenticate(loginRequest));
     }
@@ -56,7 +55,7 @@ public class AuthController {
      */
     @Operation(summary = "Signup the User")
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(final @Valid
+    public ResponseEntity<MessageResponse> registerUser(final
                                      @RequestBody SignupRequest signUpRequest)
                                       throws SQLException {
         return ResponseEntity.ok(authService.register(signUpRequest));

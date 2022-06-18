@@ -21,6 +21,7 @@
         <checkstyle.version>10.2</checkstyle.version>
         <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
         <springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
+        <archunit.version>0.21.0</archunit.version>
 
         <maven.compiler.compilerArgument>-Xlint:-processing</maven.compiler.compilerArgument>
         <maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
@@ -84,10 +85,12 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-api</artifactId>
+            <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

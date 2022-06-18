@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class AuthService {
      * @param loginRequest
      * @return jwt
      */
-    public JwtResponse authenticate(final LoginRequest loginRequest) {
+    public JwtResponse authenticate(final @Valid LoginRequest loginRequest) {
         return jwtUtils.authenticate(loginRequest);
     }
 
@@ -67,7 +68,7 @@ public class AuthService {
      * @param signUpRequest an signUpRequest.
      * @return MessageResponse
      */
-    public MessageResponse register(final SignupRequest signUpRequest)
+    public MessageResponse register(final @Valid SignupRequest signUpRequest)
                                                  throws SQLException {
 //        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 //
