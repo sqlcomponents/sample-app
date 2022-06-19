@@ -91,7 +91,7 @@ public class ActorService {
      * @return actors
      * @throws SQLException
      */
-    public List<Actor> list(final String userName) throws SQLException{
-        return this.actorStore.selectBy();
+    public List<Actor> list(final String userName) throws SQLException {
+        return this.actorStore.select().execute();
     }
 }
