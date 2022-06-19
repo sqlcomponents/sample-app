@@ -101,7 +101,7 @@ public class MovieService {
                             final Pageable pageable) throws SQLException {
         MovieManager.Page<Movie> mPage = this.movieStore.select()
                 .limit(pageable.getPageSize())
-                .offset(pageable.getPageNumber() - 1).page();
+                .offset(pageable.getPageNumber() - 1).execute();
         return new PageImpl(mPage.getContent(), pageable,
                 mPage.getTotalElements());
     }
