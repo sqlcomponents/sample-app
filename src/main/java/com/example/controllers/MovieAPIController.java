@@ -4,6 +4,7 @@ import com.example.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.model.Movie;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
 import java.sql.SQLException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -74,9 +75,11 @@ class MovieAPIController {
 
     @GetMapping
     @Operation(summary = "List a movie")
-    public ResponseEntity<List<Movie>> list(final Principal principal)
+    public ResponseEntity<Page<Movie>> list(final Principal principal,
+                                            final Pageable pageable)
             throws SQLException {
-        return ResponseEntity.ok(movieService.list(principal.getName()));
+        return ResponseEntity.ok(movieService
+                .list(principal.getName(), pageable));
     }
 }
 

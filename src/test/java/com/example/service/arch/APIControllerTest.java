@@ -65,6 +65,7 @@ public class APIControllerTest {
                         , "com.example.web.starter.security.security"
                         , "org.springframework.security.authentication"
                         , "org.springframework.beans.factory.annotation"
+                        , "org.springframework.data.domain"
                         , "java.util"
                         , "..service.."
                         , "..model.."

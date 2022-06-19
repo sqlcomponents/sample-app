@@ -3,16 +3,17 @@ package com.example.service;
 import org.example.MovieManager;
 import org.example.model.Movie;
 import org.example.store.MovieStore;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MovieService {
-
 
     /**
      * MovieStore.
@@ -87,18 +88,21 @@ public class MovieService {
      */
     public int delete(final String userName) throws SQLException {
         return this.movieStore.delete().execute();
-
-
     }
 
     /**
      * Lists all the movies.
      *
      * @param userName
+     * @param pageable
      * @return movies
      */
-
-    public List<Movie> list(final String userName) throws SQLException {
-        return this.movieStore.select().execute();
+    public Page<Movie> list(final String userName,
+                            final Pageable pageable) throws SQLException {
+        MovieManager.Page<Movie> mPage = this.movieStore.select()
+                .limit(pageable.getPageSize())
+                .offset(pageable.getPageNumber() - 1).page();
+        return new PageImpl(mPage.getContent(), pageable,
+                mPage.getTotalElements());
     }
 }
