@@ -1,7 +1,6 @@
 package com.example.service;
 
 import org.example.model.Actor;
-import org.example.model.Movie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +62,11 @@ class ActorServiceTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws SQLException {
+        final Actor actor = actorService.create(USER_NAME,
+                anActor());
+        actorService.delete(USER_NAME, actor.getActorId());
+        Assertions.assertFalse(actorService.read(USER_NAME, actor.getActorId()).isPresent(), "Deleted");
     }
 
     Actor anActor() {
