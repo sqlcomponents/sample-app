@@ -13,8 +13,8 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.media.Schema;
-import org.example.MovieManager;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 
 import java.util.Iterator;
 
@@ -52,7 +52,7 @@ public class SwaggerConfig implements ModelConverter {
         AnnotatedType typeToChain = type;
         if (javaType != null) {
             final Class<?> cls = javaType.getRawClass();
-            if (MovieManager.Page.class.isAssignableFrom(cls)) {
+            if (Page.class.isAssignableFrom(cls)) {
                 final JavaType innerType = javaType.getBindings()
                         .getBoundType(0);
                 if (innerType.getBindings() != null) {

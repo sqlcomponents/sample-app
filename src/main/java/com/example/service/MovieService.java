@@ -4,7 +4,6 @@ import org.example.MovieManager;
 import org.example.model.Movie;
 import org.example.store.MovieStore;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -99,10 +98,8 @@ public class MovieService {
      */
     public Page<Movie> list(final String userName,
                             final Pageable pageable) throws SQLException {
-        MovieManager.Page<Movie> mPage = this.movieStore.select()
+        return this.movieStore.select()
                 .limit(pageable.getPageSize())
-                .offset(pageable.getPageNumber() - 1).execute();
-        return new PageImpl(mPage.getContent(), pageable,
-                mPage.getTotalElements());
+                .offset(pageable.getPageNumber() - 1).execute(pageable);
     }
 }
