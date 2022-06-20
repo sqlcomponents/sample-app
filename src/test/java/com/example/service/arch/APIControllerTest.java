@@ -47,6 +47,7 @@ public class APIControllerTest {
         ArchRule rule = CONTROLLER_CLASSES
                 .should()
                 .bePackagePrivate()
+                .andShould().haveSimpleNameEndingWith("APIController")
                 .andShould().haveOnlyFinalFields()
                 .andShould().accessClassesThat()
                 .resideOutsideOfPackage("javax.validation")
