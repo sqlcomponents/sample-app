@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -97,8 +98,8 @@ public class AuthService {
             try {
                 userRoles1.setRoleId(movieManager.getRolesStore()
                              .selectByName(sRole).get().getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException | NoSuchElementException e) {
+                throw new IllegalArgumentException("Invalid Role");
             }
             return userRoles1;
         }).collect(Collectors.toList());
