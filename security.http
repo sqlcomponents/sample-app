@@ -95,6 +95,11 @@ Content-Type: application/json
 }
 
 #### List Movies
+GET {{base}}/movies
+Authorization: Bearer {{login.response.body.accessToken}}
+Content-Type: application/json
+
+#### List Movies with Page
 GET {{base}}/movies?page=0&size=2
 Authorization: Bearer {{login.response.body.accessToken}}
 Content-Type: application/json
