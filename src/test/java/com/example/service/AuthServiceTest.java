@@ -3,7 +3,7 @@ package com.example.service;
 import com.example.payload.LoginRequest;
 import com.example.payload.SignupRequest;
 import com.example.payload.JwtResponse;
-import com.example.service.constants.TestConstants;
+import com.example.security.UserDetailsService;
 import org.example.MovieManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

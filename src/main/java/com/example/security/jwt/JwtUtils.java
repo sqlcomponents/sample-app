@@ -3,7 +3,7 @@ package com.example.security.jwt;
 import com.example.payload.JwtResponse;
 import com.example.payload.LoginRequest;
 import com.example.security.model.UserDetailsImpl;
-import com.example.service.UserDetailsService;
+import com.example.security.UserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

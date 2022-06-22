@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.security;
 
 import com.example.security.model.UserDetailsImpl;
 import org.example.MovieManager;
