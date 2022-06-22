@@ -6,9 +6,12 @@ import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.lang.syntax.elements.GivenClassesConjunction;
 import com.tngtech.archunit.lang.syntax.elements.GivenMethodsConjunction;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -48,6 +51,8 @@ public class APIControllerTest {
                 .should()
                 .bePackagePrivate()
                 .andShould().haveSimpleNameEndingWith("APIController")
+                .andShould().beAnnotatedWith(RequestMapping.class)
+                .andShould().beAnnotatedWith(Tag.class)
                 .andShould().haveOnlyFinalFields()
                 .andShould().accessClassesThat()
                 .resideOutsideOfPackage("javax.validation")
@@ -89,6 +94,7 @@ public class APIControllerTest {
         rule = CONTROLLER_PUBLIC_METHODS
                 .should()
                 .haveRawReturnType(ResponseEntity.class)
+                .andShould().beAnnotatedWith(Operation.class)
                 .andShould().notBeAnnotatedWith(Valid.class)
                 .because("we don't want to expose domain models directly");
 
