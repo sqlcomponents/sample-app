@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -65,13 +66,23 @@ class MovieServiceTest {
 
     @Test
     void list() throws SQLException {
-        final Movie movie = movieService.create(USER_NAME,
-                anMovie());
-        Movie newMovie = anMovie();
-        movieService.create(USER_NAME, newMovie);
-        Pageable pageable = PageRequest.of(1,4);
-        List<Movie> listOfMovie = movieService.list(USER_NAME,pageable).toList();
-        Assertions.assertEquals(2, listOfMovie.size());
+        Pageable pageable ;
+        Page<Movie> moviePage;
+
+        movieService.create(USER_NAME, anMovie());
+
+        pageable = PageRequest.of(0,5);
+        moviePage = movieService.list(USER_NAME,pageable);
+        Assertions.assertEquals(1, moviePage.getTotalElements());
+
+        for (int i = 0; i <10; i++) {
+            movieService.create(USER_NAME, anMovie());
+        }
+        pageable = PageRequest.of(1,4);
+        moviePage = movieService.list(USER_NAME,pageable);
+        Assertions.assertEquals(11, moviePage.getTotalElements());
+        Assertions.assertEquals(3, moviePage.getTotalPages());
+        Assertions.assertEquals(4, moviePage.getContent().size());
     }
 
     Movie anMovie() {

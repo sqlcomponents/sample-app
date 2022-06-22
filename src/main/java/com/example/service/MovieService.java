@@ -100,6 +100,6 @@ public class MovieService {
                             final Pageable pageable) throws SQLException {
         return this.movieStore.select()
                 .limit(pageable.getPageSize())
-                .offset(pageable.getPageNumber() - 1).execute(pageable);
+                .offset(pageable.getPageNumber()).execute(pageable);
     }
 }

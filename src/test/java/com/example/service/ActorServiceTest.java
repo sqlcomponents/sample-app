@@ -1,12 +1,16 @@
 package com.example.service;
 
 import org.example.model.Actor;
+import org.example.model.Movie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -41,12 +45,23 @@ class ActorServiceTest {
 
     @Test
     void list() throws SQLException{
-        final Actor actor = actorService.create(USER_NAME,
-                anActor());
-        Actor newactor = anActor();
-        actorService.create(USER_NAME,newactor);
-        List<Actor> listOfActor = actorService.list(USER_NAME);
-        Assertions.assertEquals(2, listOfActor.size());
+        Pageable pageable ;
+        Page<Actor> actorPage;
+
+        actorService.create(USER_NAME, anActor());
+
+        pageable = PageRequest.of(0,5);
+        actorPage = actorService.list(USER_NAME,pageable);
+        Assertions.assertEquals(1, actorPage.getTotalElements());
+
+        for (int i = 0; i <10; i++) {
+            actorService.create(USER_NAME, anActor());
+        }
+        pageable = PageRequest.of(1,4);
+        actorPage = actorService.list(USER_NAME,pageable);
+        Assertions.assertEquals(11, actorPage.getTotalElements());
+        Assertions.assertEquals(3, actorPage.getTotalPages());
+        Assertions.assertEquals(4, actorPage.getContent().size());
     }
 
     @Test

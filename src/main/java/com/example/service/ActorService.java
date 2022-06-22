@@ -3,10 +3,11 @@ package com.example.service;
 import org.example.MovieManager;
 import org.example.model.Actor;
 import org.example.store.ActorStore;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -88,10 +89,14 @@ public class ActorService {
     /**
      * Selects All.
      * @param userName
+     * @param pageable
      * @return actors
      * @throws SQLException
      */
-    public List<Actor> list(final String userName) throws SQLException {
-        return this.actorStore.select().execute();
+    public Page<Actor> list(final String userName,
+                            final Pageable pageable) throws SQLException {
+        return this.actorStore.select()
+                .limit(pageable.getPageSize())
+                .offset(pageable.getPageNumber()).execute(pageable);
     }
 }

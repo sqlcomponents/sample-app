@@ -56,8 +56,3 @@ CREATE TABLE actor (
 INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
 INSERT INTO roles(name) VALUES('ROLE_ADMIN');
-
-INSERT INTO users (email,password,username) VALUES
-	 ('tarun2@email.com','$2a$10$sUfh2ZrWW8uZjVKdD.lbf.MuPy0BMxFy9OFu1r7iwDWUIlRysBYgW','tarun');
-INSERT INTO user_roles (user_id,role_id) VALUES
-	 (1,1);
