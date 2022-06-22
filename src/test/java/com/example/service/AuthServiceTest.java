@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.payload.LoginRequest;
 import com.example.payload.SignupRequest;
 import com.example.payload.JwtResponse;
+import com.example.service.constants.TestConstants;
 import org.example.MovieManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +25,9 @@ class AuthServiceTest {
 
     @Autowired
     private MovieManager movieManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @BeforeEach
     void before() throws SQLException {
@@ -67,10 +71,8 @@ class AuthServiceTest {
             JwtResponse jwtResponse = registerUser(signupRequest);
         });
 
-
-
-
     }
+
 
     @Test
     void testLogout() throws SQLException {
@@ -84,12 +86,7 @@ class AuthServiceTest {
             authService.me(jwtResponse.getAccessToken());
         });
 
-
     }
-
-
-
-
 
     @Test
     public void testAuthWithoutRole() throws SQLException {
