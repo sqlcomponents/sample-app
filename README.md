@@ -16,7 +16,15 @@ We need to configure maven to pull artifacts from github packages
 https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry
 
 github repo: https://maven.pkg.github.com/sqlcomponents/sqlcomponents
-
-mvn --s src/main/res/.m2/settings.xml clean package mvn --s src/main/res/.m2/settings.xml -X clean package mvn --s
-src/main/res/.m2/settings.xml help:active-profiles mvn --settings src/main/res/.m2/settings.xml dependency:get
--Dartifact=org.sqlcomponents:sqlcomponents-maven-plugin:1.0-SNAPSHOT
+```
+mvn --s src/main/res/.m2/settings.xml clean package 
+```
+```
+mvn --s src/main/res/.m2/settings.xml -X clean package 
+```
+```
+mvn --s src/main/res/.m2/settings.xml help:active-profiles
+```
+```
+mvn --settings src/main/res/.m2/settings.xml dependency:get -Dartifact=org.sqlcomponents:sqlcomponents-maven-plugin:1.0-SNAPSHOT
+```
