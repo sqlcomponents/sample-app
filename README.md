@@ -1,11 +1,11 @@
 # Sample Application using SQL Components
 
-Sample Application using SQL Components using postgress as the database. We will use movie database as sample database.
-Once we run this app, SQL COmponents will generate persistance for the given database (init.db/postgres/movie.sql).
+Sample Application using SQL Components using mysql as the database. We will use movie database as sample database.
+Once we run this app, SQL Components will generate persistence for the given database (init.db/postgres/movie.sql).
 
 ## Setup
 
-We need to start the postgress db and intialize database.
+We need to start the mysql db and initialize database.
 
 ```
 docker-compose up -d
