@@ -5,10 +5,5 @@ userName: "mysql-user"
 password: "password"
 schemaName: "sample-db"
 
-
 # Mapping Logic
-beanIdentifier: "model"
-daoIdentifier: "store"
-daoSuffix: ""
 rootPackage: "org.example"
-cleanSource: true

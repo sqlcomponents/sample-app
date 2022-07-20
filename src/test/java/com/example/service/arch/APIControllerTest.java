@@ -124,7 +124,7 @@ public class APIControllerTest {
                         e.printStackTrace();
                     }
                     return false;
-                }).toList() ;
+                }).collect(Collectors.toList());
 
         Assertions.assertEquals(0, problematicFiles.size(),
                 "No Validation at Controller " + problematicFiles.toString());
@@ -137,7 +137,7 @@ public class APIControllerTest {
                         e.printStackTrace();
                     }
                     return false;
-                }).toList();
+                }).collect(Collectors.toList());
         Assertions.assertEquals(0, problematicFiles.size(),
                 "Response Entity should only be created by convinient methods "
                         + problematicFiles.toString());
