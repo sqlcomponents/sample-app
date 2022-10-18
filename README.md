@@ -8,18 +8,20 @@ Once we run this app, SQL Components will generate persistence for the given dat
 We need to start the mysql db and initialize database.
 
 ```
-docker-compose up -d
+docker-compose up -d 
 ```
+-d option for demon
 
 We need to configure maven to pull artifacts from github packages
-
 https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry
 
 github repo: https://maven.pkg.github.com/sqlcomponents/sqlcomponents
 
 1. set environment variables as in sample-app\src\main\res\.m2\.env
-2. docker-compose up -d, it would create Database and Tables as per sample-app\init.db\mysql\init.sql, with credentials as in sample-app\src\main\resources\application.yml
+2. `docker-compose up -d`, it would create Database and Tables as per sample-app\init.db\mysql\init.sql, with credentials as in sample-app\src\main\resources\application.yml
    if any connection errors, it means init.sql has not run and tables are not created, try running manually
+or use _`docker-compose down --volumes`_  [optional only when sql error is seen to recreate the default tables]
+
 ```
 3. mvn --s src/main/res/.m2/settings.xml clean package 
 ```
