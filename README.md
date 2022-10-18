@@ -38,5 +38,5 @@ mvn --settings src/main/res/.m2/settings.xml dependency:get -Dartifact=org.sqlco
 ```
 sample-app\src\main\res\.m2\privateaccesstoken.png
 
-tested to work on podman too - on 18th Oct 2022
+tested -  works on podman too - on 18th Oct 2022
 
