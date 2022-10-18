@@ -37,6 +37,8 @@ mvn --s src/main/res/.m2/settings.xml help:active-profiles
 mvn --settings src/main/res/.m2/settings.xml dependency:get -Dartifact=org.sqlcomponents:sqlcomponents-maven-plugin:1.0-SNAPSHOT
 ```
 sample-app\src\main\res\.m2\privateaccesstoken.png
-
+```
+mvn versions:use-latest-releases
+```
 tested -  works on podman too - on 18th Oct 2022
 
