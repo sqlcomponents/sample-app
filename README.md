@@ -17,7 +17,8 @@ https://docs.github.com/en/packages/working-with-a-github-packages-registry/work
 
 github repo: https://maven.pkg.github.com/sqlcomponents/sqlcomponents
 
-1. set environment variables as in sample-app\src\main\res\.m2\.env
+1. set OS environment variables as in sample-app\src\main\res\.m2\.m2.env - don't put this info in git code, as it is sensitive & private info, file is created just for 
+   reference only
 2. `docker-compose up -d`, it would create Database and Tables as per sample-app\init.db\mysql\init.sql, with credentials as in sample-app\src\main\resources\application.yml
    if any connection errors, it means init.sql has not run and tables are not created, try running manually
 or use _`docker-compose down --volumes`_  [optional only when sql error is seen to recreate the default tables]
@@ -36,3 +37,6 @@ mvn --s src/main/res/.m2/settings.xml help:active-profiles
 mvn --settings src/main/res/.m2/settings.xml dependency:get -Dartifact=org.sqlcomponents:sqlcomponents-maven-plugin:1.0-SNAPSHOT
 ```
 sample-app\src\main\res\.m2\privateaccesstoken.png
+
+tested to work on podman too - on 18th Oct 2022
+
