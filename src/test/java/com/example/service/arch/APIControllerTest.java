@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,16 +55,16 @@ public class APIControllerTest {
                 .andShould().beAnnotatedWith(Tag.class)
                 .andShould().haveOnlyFinalFields()
                 .andShould().accessClassesThat()
-                .resideOutsideOfPackage("javax.validation")
+                .resideOutsideOfPackage("jakarta.validation")
                 .andShould().onlyDependOnClassesThat()
                 .resideInAnyPackage(
                         "com.example.web.api"
-                        , "javax.servlet.http"
+                        , "jakarta.servlet.http"
                         , "java.sql"
-                        , "javax.servlet"
+                        , "jakarta.servlet"
                         , "java.io"
                         , "java.net"
-                        , "javax.servlet.http"
+                        , "jakarta.servlet.http"
                         , "com.example.controllers.util"
                         , "org.springframework.security.core.userdetails"
                         , "org.springframework.security.access.prepost"

@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
