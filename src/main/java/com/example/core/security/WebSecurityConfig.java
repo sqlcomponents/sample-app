@@ -69,13 +69,14 @@ public class WebSecurityConfig {
                         authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(
                                     SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().requestMatchers("/api/auth/signup",
-                        "/api/auth/signin")
-                .permitAll()
-                .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers("/swagger-ui.html",
+                .authorizeHttpRequests()
+                .requestMatchers("/api/auth/signup",
+                        "/api/auth/signin",
+                        "/api/test/**",
+                        "/swagger-ui.html",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**").permitAll()
+                        "/v3/api-docs/**")
+                .permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(new AuthTokenFilter(jwtUtils),
