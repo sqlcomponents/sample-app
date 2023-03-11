@@ -22,7 +22,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -s $GITHUB_WORKSPACE/src/main/res/.m2/settings.xml -B package --file pom.xml
       env:
         USER_NAME: ${{ secrets.GHUB_USER }}
         ACCESS_TOKEN: ${{ secrets.GHUB_TOKEN }}
