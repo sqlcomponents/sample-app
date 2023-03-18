@@ -1,23 +1,13 @@
 @base = http://localhost:8080/api 
 
-#### Register
-POST {{base}}/auth/signup
-Content-Type: application/json
-
-{
-  "username": "mani",
-  "email": "mani@12345.com",
-  "password": "mani12345"
-}
-
 #### Login 
 # @name login 
 POST {{base}}/auth/signin
 Content-Type: application/json
 
 {
-  "username": "mani",
-  "password": "mani12345"
+  "username": "admin",
+  "password": "password"
 }
 
 #### Get the User

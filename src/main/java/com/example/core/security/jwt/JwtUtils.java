@@ -2,8 +2,6 @@ package com.example.core.security.jwt;
 
 import com.example.core.payload.JwtResponse;
 import com.example.core.payload.LoginRequest;
-import com.example.core.security.UserDetailsService;
-import com.example.core.security.model.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -22,7 +20,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -99,16 +99,14 @@ public class JwtUtils {
 
         this.authCache.put(token, jwt);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication
+        User userDetails = (User) authentication
                 .getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return new JwtResponse(token,
-                userDetails.getId(),
                 userDetails.getUsername(),
-                userDetails.getEmail(),
                 roles);
     }
 
@@ -122,7 +120,7 @@ public class JwtUtils {
 
         long now = System.currentTimeMillis();
 
-        UserDetailsImpl userPrincipal = (UserDetailsImpl)
+        User userPrincipal = (User)
                 authentication.getPrincipal();
 
         return Jwts.builder()

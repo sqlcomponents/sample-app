@@ -3,8 +3,6 @@ package com.example.core.controllers;
 import com.example.core.controllers.util.HttpUtil;
 import com.example.core.payload.JwtResponse;
 import com.example.core.payload.LoginRequest;
-import com.example.core.payload.MessageResponse;
-import com.example.core.payload.SignupRequest;
 import com.example.core.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,19 +45,6 @@ class AuthAPIController {
                                @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.authenticate(loginRequest));
     }
-
-    /**
-     * @param signUpRequest
-     * @return loginRequest
-     */
-    @Operation(summary = "Signup the User")
-    @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> registerUser(final
-                                     @RequestBody SignupRequest signUpRequest)
-                                      throws SQLException {
-        return ResponseEntity.ok(authService.register(signUpRequest));
-    }
-
 
     /**
      * Logout.

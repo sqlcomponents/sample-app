@@ -15,36 +15,26 @@ public class JwtResponse {
      * type.
      */
     private String type = "Bearer";
-    /**
-     * id.
-     */
-    private Long id;
+
     /**
      * username.
      */
     private String username;
-    /**
-     * email.
-     */
-    private String email;
+
     /**
      * roles.
      */
     private List<String> roles;
     /**
      * @param accessToken
-     * @param theId
      * @param theusername
-     * @param theemail
      * @param theroles
      */
-    public JwtResponse(final String accessToken, final Long theId,
-                       final String theusername, final String theemail,
+    public JwtResponse(final String accessToken,
+                       final String theusername,
                        final List<String> theroles) {
         this.token = accessToken;
-        this.id = theId;
         this.username = theusername;
-        this.email = theemail;
         this.roles = theroles;
     }
 
@@ -78,37 +68,7 @@ public class JwtResponse {
     public void setTokenType(final String tokenType) {
         this.type = tokenType;
     }
-    /**
-     * getId.
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
 
-    /**
-     * setId.
-     * @param aid
-     */
-    public void setId(final Long aid) {
-        this.id = aid;
-    }
-
-    /**
-     * getEmail.
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * setEmail.
-     * @param aemail
-     */
-    public void setEmail(final String aemail) {
-        this.email = aemail;
-    }
 
     /**
      * getUsername.

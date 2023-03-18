@@ -2,23 +2,14 @@ package com.example.core.service;
 
 import com.example.core.payload.JwtResponse;
 import com.example.core.payload.LoginRequest;
-import com.example.core.payload.MessageResponse;
-import com.example.core.payload.SignupRequest;
 import com.example.core.security.jwt.JwtUtils;
 import org.example.MovieManager;
-import org.example.model.UserRoles;
-import org.example.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.Valid;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -65,46 +56,4 @@ public class AuthService {
         return jwtUtils.me(token);
     }
 
-    /**
-     * @param signUpRequest an signUpRequest.
-     * @return MessageResponse
-     */
-    public MessageResponse register(final @Valid SignupRequest signUpRequest)
-                                                 throws SQLException {
-//        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-//
-//        }
-//
-//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-//
-//        }
-
-        // Create new user's account
-        Users user = new Users();
-
-        user.setEmail(signUpRequest.getEmail());
-        user.setUsername(signUpRequest.getUsername());
-        user.setPassword(encoder.encode(signUpRequest.getPassword()));
-
-        final Users createduser = movieManager.getUsersStore().insert()
-                                           .values(user).returning();
-
-        Set<String> roles = signUpRequest.getRole() == null
-                ? Set.of("ROLE_USER") : signUpRequest.getRole();
-        List<UserRoles> userRoles = roles
-                                        .stream().map(sRole -> {
-            UserRoles userRoles1 = new UserRoles();
-            userRoles1.setUserId(createduser.getId());
-            try {
-                userRoles1.setRoleId(movieManager.getRolesStore()
-                             .selectByName(sRole).get().getId());
-            } catch (SQLException | NoSuchElementException e) {
-                throw new IllegalArgumentException("Invalid Role");
-            }
-            return userRoles1;
-        }).collect(Collectors.toList());
-        movieManager.getUserRolesStore().insert().values(userRoles).execute();
-
-        return new MessageResponse("User registered successfully!");
-    }
 }
