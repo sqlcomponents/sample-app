@@ -154,11 +154,12 @@ public class TokenProvider {
 
     /**
      * Gets Authentication from jwt.
-     *
+     * @param requestURI
      * @param token
      * @return authentication
      */
     public UsernamePasswordAuthenticationToken getAuthentication(
+            final String requestURI,
             final String token) {
 
         final String jwt = getJWTToken(token);
