@@ -1,24 +1,20 @@
-package com.example.core.service;
+package com.example.core.security.service;
 
 import com.example.core.payload.JwtResponse;
 import com.example.core.payload.LoginRequest;
+import com.example.core.payload.SignupRequest;
 import com.example.core.security.jwt.JwtUtils;
-import org.example.MovieManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.Valid;
 
 @Service
 public class AuthService {
-
-    /**
-     * MovieManager.
-     */
-    @Autowired
-    private MovieManager movieManager;
 
     /**
      * encoder.
@@ -32,10 +28,36 @@ public class AuthService {
     private JwtUtils jwtUtils;
 
     /**
+     * UserDetailsManager.
+     */
+    @Autowired
+    private UserDetailsManager userDetailsManager;
+
+
+    /**
+     * @param signupRequest
+     * @return jwt
+     */
+    public JwtResponse signUp(final @Valid SignupRequest signupRequest) {
+
+        UserDetails user = User.builder()
+                .username(signupRequest.getUserName())
+                .password(encoder.encode(signupRequest.getPassword()))
+                .roles(signupRequest.getRoles()
+                        .toArray(new String[signupRequest.getRoles().size()]))
+                .build();
+
+        userDetailsManager.createUser(user);
+
+        return jwtUtils.authenticate(signupRequest);
+    }
+
+
+    /**
      * @param loginRequest
      * @return jwt
      */
-    public JwtResponse authenticate(final @Valid LoginRequest loginRequest) {
+    public JwtResponse login(final @Valid LoginRequest loginRequest) {
         return jwtUtils.authenticate(loginRequest);
     }
 

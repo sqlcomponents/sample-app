@@ -1,4 +1,4 @@
-package com.example.core.controllers.util;
+package com.example.core.security.controllers.util;
 
 import org.springframework.util.StringUtils;
 

@@ -10,7 +10,7 @@ public class LoginRequest {
      * User Name.
      */
     @NotBlank
-    private String username;
+    private String userName;
 
     /**
      * Password.
@@ -22,16 +22,16 @@ public class LoginRequest {
      * Gets User Name.
      * @return username
      */
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
     /**
      * Sets User Name.
      * @param aUsername
      */
-    public void setUsername(final String aUsername) {
-        this.username = aUsername;
+    public void setUserName(final String aUsername) {
+        this.userName = aUsername;
     }
 
     /**

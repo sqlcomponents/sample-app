@@ -75,7 +75,7 @@ public class WebSecurityConfig {
                                     SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/signup",
-                        "/api/auth/signin",
+                        "/api/auth/login",
                         "/api/test/**",
                         "/swagger-ui.html",
                         "/swagger-ui/**",

@@ -1,9 +1,10 @@
-package com.example.core.controllers;
+package com.example.core.security.controllers;
 
-import com.example.core.controllers.util.HttpUtil;
+import com.example.core.payload.SignupRequest;
+import com.example.core.security.controllers.util.HttpUtil;
 import com.example.core.payload.JwtResponse;
 import com.example.core.payload.LoginRequest;
-import com.example.core.service.AuthService;
+import com.example.core.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -34,16 +35,31 @@ class AuthAPIController {
     AuthAPIController(final AuthService anAuthService) {
         this.authService = anAuthService;
     }
+
+
+
+    /**
+     * signup an signup.
+     * @param signupRequest
+     * @return  loginRequest
+     */
+    @Operation(summary = "Sign Up with User credentials")
+    @PostMapping("/signup")
+    public ResponseEntity<JwtResponse> signUp(final
+                                 @RequestBody SignupRequest signupRequest) {
+        return ResponseEntity.ok(authService.signUp(signupRequest));
+    }
+
     /**
      * signin an signin.
      * @param loginRequest
      * @return  loginRequest
      */
     @Operation(summary = "Sign in with User credentials")
-    @PostMapping("/signin")
-    public ResponseEntity<JwtResponse> authenticateUser(final
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(final
                                @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.authenticate(loginRequest));
+        return ResponseEntity.ok(authService.login(loginRequest));
     }
 
     /**

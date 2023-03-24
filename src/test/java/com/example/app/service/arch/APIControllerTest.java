@@ -65,7 +65,7 @@ public class APIControllerTest {
                         , "java.io"
                         , "java.net"
                         , "jakarta.servlet.http"
-                        , "com.example.controllers.util"
+                        , "com.example.core.security.controllers.util"
                         , "org.springframework.security.core.userdetails"
                         , "org.springframework.security.access.prepost"
                         , "com.example.web.starter.security.security"

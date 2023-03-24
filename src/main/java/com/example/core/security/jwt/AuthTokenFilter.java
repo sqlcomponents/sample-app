@@ -1,5 +1,5 @@
 package com.example.core.security.jwt;
-import com.example.core.controllers.util.HttpUtil;
+import com.example.core.security.controllers.util.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
