@@ -1,6 +1,6 @@
 package com.example.core.security.jwt;
 
-import com.example.core.payload.JwtResponse;
+import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,59 +32,77 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtUtils {
+public class TokenProvider {
     /**
      * Logger.
      */
     private static final Logger LOGGER =
-            LoggerFactory.getLogger(JwtUtils.class);
+            LoggerFactory.getLogger(TokenProvider.class);
 
     /**
      * UserDetailsService.
      */
     @Autowired
-    private UserDetailsService userDetailsService;
-    /**
-     * JWT Secret.
-     */
-    @Value("${app.auth.tokenSecret}")
-    private String jwtSecret;
-    /**
-     * JWT Expiration.
-     */
-    @Value("${app.auth.tokenExpirationMsec}")
-    private int jwtExpirationMs;
+    private final UserDetailsService userDetailsService;
+
     /**
      * authenticationManager.
      */
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     /**
-     * Cache Managemer.
+     * Cache Manager.
      */
     @Autowired
-    private CacheManager cacheManager;
+    private final CacheManager cacheManager;
+
+    /**
+     * JWT Secret.
+     */
+    private final String jwtSecret;
+    /**
+     * JWT Expiration.
+     */
+    private final long jwtExpirationMs;
 
     /**
      * Cache to hold auth tokens.
      */
-    private Cache authCache;
+    private final Cache authCache;
 
     /**
-     * Initialize Cache.
+     * Builds Token Provider.
+     * @param theUserDetailsService
+     * @param theAuthenticationManager
+     * @param theCacheManager
+     * @param theJwtSecret
+     * @param theJwtExpirationMs
      */
-    @PostConstruct
-    public void init() {
-        this.authCache = cacheManager.getCache("Auth");
+    public TokenProvider(final UserDetailsService theUserDetailsService,
+                         final AuthenticationManager theAuthenticationManager,
+                         final CacheManager theCacheManager,
+                         @Value("${app.auth.tokenSecret}")
+                         final String theJwtSecret,
+                         @Value("${app.auth.tokenExpirationMsec}")
+                         final long theJwtExpirationMs) {
+        this.userDetailsService = theUserDetailsService;
+        this.authenticationManager = theAuthenticationManager;
+        this.cacheManager = theCacheManager;
+        this.jwtSecret = theJwtSecret;
+        this.jwtExpirationMs = theJwtExpirationMs;
+
+        this.authCache = theCacheManager.getCache("Auth");
     }
+
 
     /**
      * Authenticate the login request.
      * @param loginRequest
      * @return jwtResponse
      */
-    public JwtResponse authenticate(final LoginRequest loginRequest) {
+    public AuthenticationResponse authenticate(
+            final LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUserName(),
@@ -105,9 +122,12 @@ public class JwtUtils {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return new JwtResponse(token,
-                userDetails.getUsername(),
-                roles);
+        return new AuthenticationResponse(userDetails.getUsername(),
+                token,
+                jwtExpirationMs,
+                null,
+                null
+                );
     }
 
     /**

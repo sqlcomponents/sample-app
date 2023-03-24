@@ -2,7 +2,7 @@ package com.example.core.security.controllers;
 
 import com.example.core.payload.SignupRequest;
 import com.example.core.security.controllers.util.HttpUtil;
-import com.example.core.payload.JwtResponse;
+import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
 import com.example.core.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +45,7 @@ class AuthAPIController {
      */
     @Operation(summary = "Sign Up with User credentials")
     @PostMapping("/signup")
-    public ResponseEntity<JwtResponse> signUp(final
+    public ResponseEntity<AuthenticationResponse> signUp(final
                                  @RequestBody SignupRequest signupRequest) {
         return ResponseEntity.ok(authService.signUp(signupRequest));
     }
@@ -57,7 +57,7 @@ class AuthAPIController {
      */
     @Operation(summary = "Sign in with User credentials")
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(final
+    public ResponseEntity<AuthenticationResponse> login(final
                                @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.login(loginRequest));
     }

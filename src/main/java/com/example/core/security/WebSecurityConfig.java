@@ -2,7 +2,7 @@ package com.example.core.security;
 
 import com.example.core.security.jwt.AuthEntryPointJwt;
 import com.example.core.security.jwt.AuthTokenFilter;
-import com.example.core.security.jwt.JwtUtils;
+import com.example.core.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -67,7 +67,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(
             final HttpSecurity http,
             final AuthEntryPointJwt authEntryPointJwt,
-            final JwtUtils jwtUtils) throws Exception {
+            final TokenProvider jwtUtils) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(
                         authEntryPointJwt).and()

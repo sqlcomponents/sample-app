@@ -1,9 +1,9 @@
 package com.example.core.security.service;
 
-import com.example.core.payload.JwtResponse;
+import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
 import com.example.core.payload.SignupRequest;
-import com.example.core.security.jwt.JwtUtils;
+import com.example.core.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +25,7 @@ public class AuthService {
      * jwtUtils.
      */
     @Autowired
-    private JwtUtils jwtUtils;
+    private TokenProvider jwtUtils;
 
     /**
      * UserDetailsManager.
@@ -38,7 +38,8 @@ public class AuthService {
      * @param signupRequest
      * @return jwt
      */
-    public JwtResponse signUp(final @Valid SignupRequest signupRequest) {
+    public AuthenticationResponse signUp(
+            final @Valid SignupRequest signupRequest) {
 
         UserDetails user = User.builder()
                 .username(signupRequest.getUserName())
@@ -57,7 +58,8 @@ public class AuthService {
      * @param loginRequest
      * @return jwt
      */
-    public JwtResponse login(final @Valid LoginRequest loginRequest) {
+    public AuthenticationResponse login(
+            final @Valid LoginRequest loginRequest) {
         return jwtUtils.authenticate(loginRequest);
     }
 

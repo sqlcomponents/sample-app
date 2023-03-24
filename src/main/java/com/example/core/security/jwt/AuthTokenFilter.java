@@ -21,15 +21,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory
                   .getLogger(AuthTokenFilter.class);
     /**
-     * JwtUtils.
+     * TokenProvider.
      */
-    private final JwtUtils jwtUtils;
+    private final TokenProvider jwtUtils;
 
     /**
      * Builds AuthTokenFilter.
      * @param aJwtUtils
      */
-    public AuthTokenFilter(final JwtUtils aJwtUtils) {
+    public AuthTokenFilter(final TokenProvider aJwtUtils) {
         this.jwtUtils = aJwtUtils;
     }
 
