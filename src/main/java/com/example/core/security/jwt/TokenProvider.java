@@ -139,12 +139,15 @@ public class TokenProvider {
      * generate AuthenticationResponse.
      *
      * @param authentication the authentication
+     * @param isRegistered
      * @return token string
      */
     public AuthenticationResponse getAuthenticationResponse(
             final Authentication authentication,
             final boolean isRegistered) {
-        return getAuthenticationResponse(authentication.getName(), isRegistered);
+        return getAuthenticationResponse(
+                authentication.getName(),
+                isRegistered);
     }
     /**
      * generate AuthenticationResponse.
@@ -422,6 +425,8 @@ public class TokenProvider {
         if (authResult == null) {
             throw new BadCredentialsException("Invalid Login Credentials");
         }
-        return getAuthenticationResponse(authResult, !(loginRequest instanceof SignupRequest));
+        return getAuthenticationResponse(
+                authResult,
+                !(loginRequest instanceof SignupRequest));
     }
 }

@@ -79,9 +79,10 @@ public class AuthService {
      * @return authenticationResponse
      */
     public AuthenticationResponse register(final String authHeader,
-                                           final String userName,
-                                           final RegistrationRequest registrationRequest) {
-        return tokenProvider.register(authHeader, userName, registrationRequest);
+                           final String userName,
+                           final RegistrationRequest registrationRequest) {
+        return tokenProvider
+                .register(authHeader, userName, registrationRequest);
     }
 
     //    /**

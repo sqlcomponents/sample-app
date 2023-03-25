@@ -2,7 +2,6 @@ package com.example.core.security.controllers;
 
 import com.example.core.payload.RegistrationRequest;
 import com.example.core.payload.SignupRequest;
-import com.example.core.security.controllers.util.HttpUtil;
 import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
 import com.example.core.security.service.AuthService;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.security.Principal;
 
