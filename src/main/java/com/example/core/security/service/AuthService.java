@@ -2,6 +2,7 @@ package com.example.core.security.service;
 
 import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
+import com.example.core.payload.RegistrationRequest;
 import com.example.core.payload.SignupRequest;
 import com.example.core.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AuthService {
      * jwtUtils.
      */
     @Autowired
-    private TokenProvider jwtUtils;
+    private TokenProvider tokenProvider;
 
     /**
      * UserDetailsManager.
@@ -50,7 +51,7 @@ public class AuthService {
 
         userDetailsManager.createUser(user);
 
-        return jwtUtils.authenticate(signupRequest);
+        return tokenProvider.authenticate(signupRequest);
     }
 
 
@@ -60,24 +61,37 @@ public class AuthService {
      */
     public AuthenticationResponse login(
             final @Valid LoginRequest loginRequest) {
-        return jwtUtils.authenticate(loginRequest);
+        return tokenProvider.authenticate(loginRequest);
     }
 
     /**
      * @param token
      */
     public void logout(final String token) {
-        jwtUtils.logout(token);
+        tokenProvider.logout(token);
     }
 
     /**
-     * Get User Details.
-     *
-     * @param token
-     * @return userdetails
+     * refresh.
+     * @param authHeader
+     * @param userName
+     * @param registrationRequest
+     * @return authenticationResponse
      */
-    public UserDetails me(final String token) {
-        return jwtUtils.me(token);
+    public AuthenticationResponse register(final String authHeader,
+                                           final String userName,
+                                           final RegistrationRequest registrationRequest) {
+        return tokenProvider.register(authHeader, userName, registrationRequest);
     }
+
+    //    /**
+//     * Get User Details.
+//     *
+//     * @param token
+//     * @return userdetails
+//     */
+//    public UserDetails me(final String token) {
+//        return tokenProvider.me(token);
+//    }
 
 }
