@@ -2,10 +2,10 @@ package com.example.core.security.service;
 
 import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
+import com.example.core.payload.RefreshToken;
 import com.example.core.payload.RegistrationRequest;
 import com.example.core.payload.SignupRequest;
 import com.example.core.security.jwt.TokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,19 +20,30 @@ public class AuthService {
     /**
      * encoder.
      */
-    @Autowired
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
     /**
-     * jwtUtils.
+     * tokenProvider.
      */
-    @Autowired
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
     /**
      * UserDetailsManager.
      */
-    @Autowired
-    private UserDetailsManager userDetailsManager;
+    private final UserDetailsManager userDetailsManager;
+
+    /**
+     * Builds Auth Service.
+     * @param passwordEncoder
+     * @param theTokenProvider
+     * @param theUserDetailsManager
+     */
+    public AuthService(final PasswordEncoder passwordEncoder,
+                       final TokenProvider theTokenProvider,
+                       final UserDetailsManager theUserDetailsManager) {
+        this.encoder = passwordEncoder;
+        this.tokenProvider = theTokenProvider;
+        this.userDetailsManager = theUserDetailsManager;
+    }
 
 
     /**
@@ -41,7 +52,6 @@ public class AuthService {
      */
     public AuthenticationResponse signUp(
             final @Valid SignupRequest signupRequest) {
-
         UserDetails user = User.builder()
                 .username(signupRequest.getUserName())
                 .password(encoder.encode(signupRequest.getPassword()))
@@ -57,7 +67,7 @@ public class AuthService {
 
     /**
      * @param loginRequest
-     * @return jwt
+     * @return AuthenticationResponse
      */
     public AuthenticationResponse login(
             final @Valid LoginRequest loginRequest) {
@@ -85,7 +95,21 @@ public class AuthService {
                 .register(authHeader, userName, registrationRequest);
     }
 
-    //    /**
+    /**
+     * refresh.
+     * @param authHeader
+     * @param userName
+     * @param refreshToken
+     * @return authenticationResponse
+     */
+    public AuthenticationResponse refresh(final String authHeader,
+                                          final String userName,
+                                          final RefreshToken refreshToken) {
+        return tokenProvider.refresh(authHeader, userName, refreshToken);
+    }
+
+
+//    /**
 //     * Get User Details.
 //     *
 //     * @param token

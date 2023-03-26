@@ -1,5 +1,6 @@
 package com.example.core.security.controllers;
 
+import com.example.core.payload.RefreshToken;
 import com.example.core.payload.RegistrationRequest;
 import com.example.core.payload.SignupRequest;
 import com.example.core.payload.AuthenticationResponse;
@@ -35,8 +36,6 @@ class AuthAPIController {
     AuthAPIController(final AuthService anAuthService) {
         this.authService = anAuthService;
     }
-
-
 
     /**
      * signup an signup.
@@ -82,6 +81,26 @@ class AuthAPIController {
     }
 
     /**
+     * performs the login function.
+     * @param authHeader
+     * @param refreshToken the authentication request
+     * @param principal
+     * @return authentication response
+     */
+    @Operation(summary = "Refresh the credentials")
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthenticationResponse> refresh(
+            final Principal principal,
+            @RequestHeader(name = "Authorization") final String authHeader,
+            final @RequestBody
+            RefreshToken
+                    refreshToken) {
+        return ResponseEntity.ok().body(authService
+                .refresh(authHeader,
+                        principal.getName(), refreshToken));
+    }
+
+    /**
      * Logout.
      * @param authHeader
      * @return loginRequest
@@ -95,14 +114,4 @@ class AuthAPIController {
         return ResponseEntity.ok().build();
     }
 
-//    /**
-//     * Get User Details.
-//     * @param request
-//     * @return loginRequest
-//     */
-//    @Operation(summary = "Logout the User")
-//    @GetMapping("/me")
-//    public ResponseEntity<UserDetails> me(final HttpServletRequest request) {
-//        return ResponseEntity.ok(authService.me(HttpUtil.getToken(request)));
-//    }
 }
