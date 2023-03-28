@@ -83,6 +83,8 @@ public class TokenProvider {
      */
     private final Cache authCache;
 
+
+
     /**
      * Builds Token Provider.
      *
@@ -109,6 +111,7 @@ public class TokenProvider {
         this.jwtExpirationMs = theJwtExpirationMs;
 
         this.authCache = theCacheManager.getCache("Auth");
+
     }
 
 
@@ -230,8 +233,6 @@ public class TokenProvider {
         }
 
         String jwtToken = valueWrapper.get().toString();
-
-
 
         try {
             final Claims claims = Jwts.parserBuilder()

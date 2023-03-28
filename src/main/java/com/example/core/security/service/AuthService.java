@@ -6,6 +6,7 @@ import com.example.core.payload.RefreshToken;
 import com.example.core.payload.RegistrationRequest;
 import com.example.core.payload.SignupRequest;
 import com.example.core.security.jwt.TokenProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,9 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.Valid;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class AuthService {
@@ -32,6 +36,11 @@ public class AuthService {
     private final UserDetailsManager userDetailsManager;
 
     /**
+     * Keeps Registered Users.
+     */
+    private final Set<String> resiteredUsers;
+
+    /**
      * Builds Auth Service.
      * @param passwordEncoder
      * @param theTokenProvider
@@ -43,6 +52,10 @@ public class AuthService {
         this.encoder = passwordEncoder;
         this.tokenProvider = theTokenProvider;
         this.userDetailsManager = theUserDetailsManager;
+
+
+        this.resiteredUsers = new HashSet<>();
+
     }
 
 
@@ -71,6 +84,11 @@ public class AuthService {
      */
     public AuthenticationResponse login(
             final @Valid LoginRequest loginRequest) {
+
+        if (!this.resiteredUsers.contains(loginRequest.getUserName())) {
+            throw new BadCredentialsException("User is not registeed");
+        }
+
         return tokenProvider.authenticate(loginRequest);
     }
 
@@ -91,8 +109,10 @@ public class AuthService {
     public AuthenticationResponse register(final String authHeader,
                            final String userName,
                            final RegistrationRequest registrationRequest) {
-        return tokenProvider
+        AuthenticationResponse authenticationResponse = tokenProvider
                 .register(authHeader, userName, registrationRequest);
+        this.resiteredUsers.add(authenticationResponse.getUserName());
+        return authenticationResponse;
     }
 
     /**
@@ -109,14 +129,14 @@ public class AuthService {
     }
 
 
-//    /**
-//     * Get User Details.
-//     *
-//     * @param token
-//     * @return userdetails
-//     */
-//    public UserDetails me(final String token) {
-//        return tokenProvider.me(token);
-//    }
+    /**
+     * Get User Details.
+     *
+     * @param userName
+     * @return userdetails
+     */
+    public UserDetails me(final String userName) {
+        return userDetailsManager.loadUserByUsername(userName);
+    }
 
 }

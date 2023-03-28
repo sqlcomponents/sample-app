@@ -7,9 +7,14 @@ import com.example.core.payload.AuthenticationResponse;
 import com.example.core.payload.LoginRequest;
 import com.example.core.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -46,7 +51,9 @@ class AuthAPIController {
     @PostMapping("/signup")
     public ResponseEntity<AuthenticationResponse> signUp(final
                                  @RequestBody SignupRequest signupRequest) {
-        return ResponseEntity.ok(authService.signUp(signupRequest));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authService.signUp(signupRequest));
     }
 
     /**
@@ -112,6 +119,27 @@ class AuthAPIController {
             final String authHeader) {
         authService.logout(authHeader);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * get the user details from the principal.
+     *
+     * @param principal the principal
+     * @return AuthenticationResponse response entity
+     */
+    @Operation(summary = "Get logged in user profile",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "practice"),
+            @ApiResponse(responseCode = "401",
+                    description = "invalid credentials"),
+            @ApiResponse(responseCode = "404",
+                    description = "practice not found")})
+    @GetMapping("/me")
+    public ResponseEntity<UserDetails> me(
+            final Principal principal) {
+        return ResponseEntity.ok().body(
+                authService.me(principal.getName()));
     }
 
 }
