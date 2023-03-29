@@ -1,4 +1,4 @@
-package com.example.core.payload;
+package com.example.core.security.model;
 
 import java.util.Set;
 

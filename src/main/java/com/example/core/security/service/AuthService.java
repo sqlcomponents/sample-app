@@ -1,11 +1,10 @@
 package com.example.core.security.service;
 
-import com.example.core.payload.AuthenticationResponse;
-import com.example.core.payload.LoginRequest;
-import com.example.core.payload.RefreshToken;
-import com.example.core.payload.RegistrationRequest;
-import com.example.core.payload.SignupRequest;
-import com.example.core.security.jwt.TokenProvider;
+import com.example.core.security.model.AuthenticationResponse;
+import com.example.core.security.model.LoginRequest;
+import com.example.core.security.model.RefreshToken;
+import com.example.core.security.model.RegistrationRequest;
+import com.example.core.security.model.SignupRequest;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

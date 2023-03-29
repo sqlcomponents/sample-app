@@ -1,10 +1,10 @@
-package com.example.core.security.jwt;
+package com.example.core.security.service;
 
-import com.example.core.payload.AuthenticationResponse;
-import com.example.core.payload.LoginRequest;
-import com.example.core.payload.RefreshToken;
-import com.example.core.payload.RegistrationRequest;
-import com.example.core.payload.SignupRequest;
+import com.example.core.security.model.AuthenticationResponse;
+import com.example.core.security.model.LoginRequest;
+import com.example.core.security.model.RefreshToken;
+import com.example.core.security.model.RegistrationRequest;
+import com.example.core.security.model.SignupRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -59,12 +59,6 @@ public class TokenProvider {
     private final AuthenticationManager authenticationManager;
 
     /**
-     * Cache Manager.
-     */
-    private final CacheManager cacheManager;
-
-
-    /**
      * Object Mapper.
      */
     private final ObjectMapper objectMapper;
@@ -82,8 +76,6 @@ public class TokenProvider {
      * Cache to hold auth tokens.
      */
     private final Cache authCache;
-
-
 
     /**
      * Builds Token Provider.
@@ -105,7 +97,6 @@ public class TokenProvider {
                          final long theJwtExpirationMs) {
         this.userDetailsService = theUserDetailsService;
         this.authenticationManager = theAuthenticationManager;
-        this.cacheManager = theCacheManager;
         this.objectMapper = theObjectMapper;
         this.jwtSecret = theJwtSecret;
         this.jwtExpirationMs = theJwtExpirationMs;
@@ -151,36 +142,6 @@ public class TokenProvider {
         return getAuthenticationResponse(
                 authentication.getName(),
                 isRegistered);
-    }
-    /**
-     * generate AuthenticationResponse.
-     *
-     * @param authHeader the auth Header
-     * @return token string
-     */
-    public AuthenticationResponse getWelcomeResponse(
-            final String authHeader) {
-        Cache.ValueWrapper valueWrapper = authCache.get(authHeader);
-
-        if (valueWrapper == null) {
-            throw new BadCredentialsException("Invalid Token");
-        }
-        AuthenticationResponse response =
-                getAuthenticationResponse(valueWrapper.get().toString(), false);
-
-        authCache.evict(authHeader);
-
-        return response;
-    }
-    /**
-     * Generates Welcome Token.
-     * @param userName
-     * @return welcomeToken
-     */
-    public String generateWelcomeToken(final String userName) {
-        String welcomeToken = UUID.randomUUID().toString();
-        this.authCache.put(welcomeToken, userName);
-        return welcomeToken;
     }
 
     /**

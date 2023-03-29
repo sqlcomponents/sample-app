@@ -1,10 +1,10 @@
 package com.example.core.security.controllers;
 
-import com.example.core.payload.RefreshToken;
-import com.example.core.payload.RegistrationRequest;
-import com.example.core.payload.SignupRequest;
-import com.example.core.payload.AuthenticationResponse;
-import com.example.core.payload.LoginRequest;
+import com.example.core.security.model.RefreshToken;
+import com.example.core.security.model.RegistrationRequest;
+import com.example.core.security.model.SignupRequest;
+import com.example.core.security.model.AuthenticationResponse;
+import com.example.core.security.model.LoginRequest;
 import com.example.core.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

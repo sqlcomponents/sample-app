@@ -1,4 +1,4 @@
-package com.example.core.payload;
+package com.example.core.security.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

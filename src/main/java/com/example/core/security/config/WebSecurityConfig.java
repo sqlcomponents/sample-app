@@ -1,8 +1,6 @@
-package com.example.core.security;
+package com.example.core.security.config;
 
-import com.example.core.security.jwt.AuthEntryPointJwt;
-import com.example.core.security.jwt.AuthTokenFilter;
-import com.example.core.security.jwt.TokenProvider;
+import com.example.core.security.service.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
