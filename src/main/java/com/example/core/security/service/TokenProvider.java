@@ -109,14 +109,16 @@ public class TokenProvider {
     /**
      * Gets Authentication.
      * @param requestURI
-     * @param jwt
+     * @param authorizationHeader
      * @return authentication
      */
     public UsernamePasswordAuthenticationToken getAuthentication(
             final String requestURI,
-            final String jwt) {
+            final String authorizationHeader) {
+
         final String userName =
-                getUserNameFromToken(requestURI, jwt);
+                getUserNameFromToken(requestURI,
+                        getBearer(authorizationHeader));
 
         final UserDetails userDetails =
                 userDetailsService.loadUserByUsername(userName);
@@ -268,10 +270,10 @@ public class TokenProvider {
     }
 
 
-    private String getBearer(final String authHeader) {
-        if (StringUtils.hasText(authHeader) && authHeader
-                .startsWith("Bearer ")) {
-            return authHeader.substring(VALUE);
+    private String getBearer(final String authorizationHeader) {
+        if (StringUtils.hasText(authorizationHeader)
+                && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(VALUE);
         }
         throw new BadCredentialsException("Invalid Token");
     }
