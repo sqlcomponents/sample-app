@@ -5,7 +5,10 @@ import com.example.core.security.model.LoginRequest;
 import com.example.core.security.model.RefreshToken;
 import com.example.core.security.model.RegistrationRequest;
 import com.example.core.security.model.SignupRequest;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +22,10 @@ import java.util.Set;
 
 @Service
 public class AuthService {
-
+    /**
+     * authenticationManager.
+     */
+    private final AuthenticationManager authenticationManager;
     /**
      * encoder.
      */
@@ -37,23 +43,27 @@ public class AuthService {
     /**
      * Keeps Registered Users.
      */
-    private final Set<String> resiteredUsers;
+    private final Set<String> registeredUsers;
 
     /**
      * Builds Auth Service.
+     *
+     * @param theAuthenticationManager
      * @param passwordEncoder
      * @param theTokenProvider
      * @param theUserDetailsManager
      */
-    public AuthService(final PasswordEncoder passwordEncoder,
+    public AuthService(final AuthenticationManager theAuthenticationManager,
+                       final PasswordEncoder passwordEncoder,
                        final TokenProvider theTokenProvider,
                        final UserDetailsManager theUserDetailsManager) {
+        this.authenticationManager = theAuthenticationManager;
         this.encoder = passwordEncoder;
         this.tokenProvider = theTokenProvider;
         this.userDetailsManager = theUserDetailsManager;
 
 
-        this.resiteredUsers = new HashSet<>();
+        this.registeredUsers = new HashSet<>();
 
     }
 
@@ -73,7 +83,7 @@ public class AuthService {
 
         userDetailsManager.createUser(user);
 
-        return tokenProvider.authenticate(signupRequest);
+        return authenticate(signupRequest, false);
     }
 
 
@@ -84,11 +94,11 @@ public class AuthService {
     public AuthenticationResponse login(
             final @Valid LoginRequest loginRequest) {
 
-        if (!this.resiteredUsers.contains(loginRequest.getUserName())) {
+        if (!this.registeredUsers.contains(loginRequest.getUserName())) {
             throw new BadCredentialsException("User is not registeed");
         }
 
-        return tokenProvider.authenticate(loginRequest);
+        return authenticate(loginRequest, true);
     }
 
     /**
@@ -110,7 +120,7 @@ public class AuthService {
                            final RegistrationRequest registrationRequest) {
         AuthenticationResponse authenticationResponse = tokenProvider
                 .register(authHeader, userName, registrationRequest);
-        this.resiteredUsers.add(authenticationResponse.getUserName());
+        this.registeredUsers.add(authenticationResponse.getUserName());
         return authenticationResponse;
     }
 
@@ -138,4 +148,26 @@ public class AuthService {
         return userDetailsManager.loadUserByUsername(userName);
     }
 
+    /**
+     * Authendicate the request.
+     * @param loginRequest
+     * @param isRegistered
+     * @return AuthenticationResponse
+     */
+    private AuthenticationResponse authenticate(
+            final LoginRequest loginRequest,
+            final boolean isRegistered) {
+        final Authentication authResult =
+                this.authenticationManager
+                        .authenticate(
+                                new UsernamePasswordAuthenticationToken(
+                                        loginRequest.getUserName(),
+                                        loginRequest.getPassword()));
+        if (authResult == null) {
+            throw new BadCredentialsException("Invalid Login Credentials");
+        }
+        return tokenProvider.getAuthenticationResponse(
+                authResult.getName(),
+                isRegistered);
+    }
 }

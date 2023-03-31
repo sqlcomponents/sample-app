@@ -1,10 +1,8 @@
 package com.example.core.security.service;
 
 import com.example.core.security.model.AuthenticationResponse;
-import com.example.core.security.model.LoginRequest;
 import com.example.core.security.model.RefreshToken;
 import com.example.core.security.model.RegistrationRequest;
-import com.example.core.security.model.SignupRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
@@ -23,7 +21,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -52,11 +49,6 @@ public class TokenProvider {
      * UserDetailsService.
      */
     private final UserDetailsService userDetailsService;
-
-    /**
-     * authenticationManager.
-     */
-    private final AuthenticationManager authenticationManager;
 
     /**
      * Object Mapper.
@@ -96,7 +88,6 @@ public class TokenProvider {
                          @Value("${app.auth.tokenExpirationMsec}")
                          final long theJwtExpirationMs) {
         this.userDetailsService = theUserDetailsService;
-        this.authenticationManager = theAuthenticationManager;
         this.objectMapper = theObjectMapper;
         this.jwtSecret = theJwtSecret;
         this.jwtExpirationMs = theJwtExpirationMs;
@@ -128,22 +119,6 @@ public class TokenProvider {
                         userDetails.getAuthorities());
 
         return authentication;
-    }
-
-
-    /**
-     * generate AuthenticationResponse.
-     *
-     * @param authentication the authentication
-     * @param isRegistered
-     * @return token string
-     */
-    public AuthenticationResponse getAuthenticationResponse(
-            final Authentication authentication,
-            final boolean isRegistered) {
-        return getAuthenticationResponse(
-                authentication.getName(),
-                isRegistered);
     }
 
     /**
@@ -251,11 +226,12 @@ public class TokenProvider {
             Jwts.parserBuilder()
                     .setSigningKey(getSignInKey()).build()
                     .parseClaimsJws(token);
-        } catch (final MalformedJwtException | UnsupportedJwtException
-                       | IllegalArgumentException ex) {
-            throw new BadCredentialsException("Invalid Token", ex);
         } catch (final ExpiredJwtException ex) {
             return true;
+        } catch (final MalformedJwtException
+                       | UnsupportedJwtException
+                       | IllegalArgumentException ex) {
+            throw new BadCredentialsException("Invalid Token", ex);
         }
         return false;
     }
@@ -270,13 +246,7 @@ public class TokenProvider {
     }
 
 
-    private String getBearer(final String authorizationHeader) {
-        if (StringUtils.hasText(authorizationHeader)
-                && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(VALUE);
-        }
-        throw new BadCredentialsException("Invalid Token");
-    }
+
 
     /**
      * Generates Refresh Token.
@@ -351,8 +321,14 @@ public class TokenProvider {
         }
 
     }
-
-    private AuthenticationResponse getAuthenticationResponse(
+    /**
+     * generate AuthenticationResponse.
+     *
+     * @param userName the authentication
+     * @param isRegistered
+     * @return token string
+     */
+    public AuthenticationResponse getAuthenticationResponse(
             final String userName,
             final boolean isRegistered) {
 
@@ -373,24 +349,12 @@ public class TokenProvider {
                 generateToken(userName));
     }
 
-    /**
-     * Authendicate the request.
-     * @param loginRequest
-     * @return AuthenticationResponse
-     */
-    public AuthenticationResponse authenticate(
-            final LoginRequest loginRequest) {
-        final Authentication authResult =
-                this.authenticationManager
-                .authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginRequest.getUserName(),
-                                loginRequest.getPassword()));
-        if (authResult == null) {
-            throw new BadCredentialsException("Invalid Login Credentials");
+    private String getBearer(final String authorizationHeader) {
+        if (StringUtils.hasText(authorizationHeader)
+                && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(VALUE);
         }
-        return getAuthenticationResponse(
-                authResult,
-                !(loginRequest instanceof SignupRequest));
+        throw new BadCredentialsException("Invalid Token");
     }
+
 }
