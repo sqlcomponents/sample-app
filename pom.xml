@@ -1,226 +1,211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	 xmlns="http://maven.apache.org/POM/4.0.0"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>3.0.5</version>
     </parent>
+
     <groupId>com.example</groupId>
-    <artifactId>spring-boot-sqlcomponents</artifactId>
+    <artifactId>sample-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Spring Boot SQL Components</name>
     <description>Demo project for Spring Boot Security - JWT</description>
 
     <properties>
-        <java.version>17</java.version>
-
-        <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
-        <checkstyle.version>10.2</checkstyle.version>
-        <jsonwebtoken.version>0.11.2</jsonwebtoken.version>
-        <springdoc-openapi-ui.version>2.0.2</springdoc-openapi-ui.version>
-        <archunit.version>0.21.0</archunit.version>
-
-        <maven.compiler.compilerArgument>-Xlint:-processing</maven.compiler.compilerArgument>
-        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-        <maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
-        <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-		<mysql-connector-java.version>8.0.31</mysql-connector-java.version>
-	</properties>
+	<java.version>17</java.version>
+	<maven.checkstyle.version>3.1.2</maven.checkstyle.version>
+	<checkstyle.version>10.2</checkstyle.version>
+	<jsonwebtoken.version>0.11.2</jsonwebtoken.version>
+	<springdoc-openapi-ui.version>2.0.2</springdoc-openapi-ui.version>
+	<archunit.version>0.21.0</archunit.version>
+	<maven.compiler.compilerArgument>-Xlint:-processing</maven.compiler.compilerArgument>
+	<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+	<maven.compiler.failOnWarning>true</maven.compiler.failOnWarning>
+	<jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+	<mysql-connector-java.version>8.0.31</mysql-connector-java.version>
+    </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jsonwebtoken.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jsonwebtoken.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
-            <version>${jsonwebtoken.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc-openapi-ui.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5-api</artifactId>
-            <version>${archunit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-validation</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-jdbc</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-commons</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>${mysql-connector-java.version}</version>
+	    <scope>runtime</scope>
+	</dependency>
+	<dependency>
+	    <groupId>io.jsonwebtoken</groupId>
+	    <artifactId>jjwt-api</artifactId>
+	    <version>${jsonwebtoken.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>io.jsonwebtoken</groupId>
+	    <artifactId>jjwt-impl</artifactId>
+	    <version>${jsonwebtoken.version}</version>
+	    <scope>runtime</scope>
+	</dependency>
+	<dependency>
+	    <groupId>io.jsonwebtoken</groupId>
+	    <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+	    <version>${jsonwebtoken.version}</version>
+	    <scope>runtime</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.springdoc</groupId>
+	    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	    <version>${springdoc-openapi-ui.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-test</artifactId>
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-webflux</artifactId>
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>com.tngtech.archunit</groupId>
+	    <artifactId>archunit-junit5-api</artifactId>
+	    <version>${archunit.version}</version>
+	    <scope>test</scope>
+	</dependency>
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+	<plugins>
+	    <plugin>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-maven-plugin</artifactId>
+	    </plugin>
+	    <plugin>
+		<groupId>org.sqlcomponents</groupId>
+		<artifactId>maven-plugin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<executions>
+		    <execution>
+			<phase>generate-sources</phase>
+			<goals>
+			    <goal>generated-sources</goal>
+			</goals>
+		    </execution>
+		</executions>
+	    </plugin>
+	    <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-checkstyle-plugin</artifactId>
+		<version>${maven.checkstyle.version}</version>
+		<dependencies>
+		    <dependency>
+			<groupId>com.puppycrawl.tools</groupId>
+			<artifactId>checkstyle</artifactId>
+			<version>${checkstyle.version}</version>
+		    </dependency>
+		</dependencies>
+		<configuration>
+		    <encoding>UTF-8</encoding>
+		    <consoleOutput>true</consoleOutput>
+		    <failsOnError>true</failsOnError>
+		    <linkXRef>false</linkXRef>
+		</configuration>
+		<executions>
+		    <execution>
+			<id>validate</id>
+			<phase>validate</phase>
+			<goals>
+			    <goal>check</goal>
+			</goals>
+		    </execution>
+		</executions>
+	    </plugin>
 
-            <plugin>
-                <groupId>org.sqlcomponents</groupId>
-                <artifactId>sqlcomponents-maven-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generated-sources</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven.checkstyle.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>${checkstyle.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
-                <configuration>
-                    <includes>
-                        <include>com/example/service/*</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>default-prepare-agent</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Sets the path to the file which contains the execution data. -->
-                            <destFile>target/coverage-reports/jacoco-ut.exec</destFile>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default-check</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>PACKAGE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>1.0</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>post-integration-test</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>target/coverage-reports/jacoco-it.exec</dataFile>
-                            <outputDirectory>target/coverage-reports/jacoco-it</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+	    <plugin>
+		<groupId>org.jacoco</groupId>
+		<artifactId>jacoco-maven-plugin</artifactId>
+		<version>${jacoco-maven-plugin.version}</version>
+		<configuration>
+		    <includes>
+			<include>com/example/service/*</include>
+		    </includes>
+		</configuration>
+		<executions>
+		    <execution>
+			<id>default-prepare-agent</id>
+			<phase>test</phase>
+			<goals>
+			    <goal>prepare-agent</goal>
+			</goals>
+			<configuration>
+			    <!-- Sets the path to the file which contains the execution data. -->
+			    <destFile>target/coverage-reports/jacoco-ut.exec</destFile>
+			</configuration>
+		    </execution>
+		    <execution>
+			<id>default-report</id>
+			<phase>test</phase>
+			<goals>
+			    <goal>report</goal>
+			</goals>
+		    </execution>
+		    <execution>
+			<id>default-check</id>
+			<phase>test</phase>
+			<goals>
+			    <goal>check</goal>
+			</goals>
+			<configuration>
+			    <rules>
+				<rule>
+				    <element>PACKAGE</element>
+				    <limits>
+					<limit>
+					    <counter>LINE</counter>
+					    <value>COVEREDRATIO</value>
+					    <minimum>1.0</minimum>
+					</limit>
+				    </limits>
+				</rule>
+			    </rules>
+			</configuration>
+		    </execution>
+		    <execution>
+			<id>post-integration-test</id>
+			<phase>post-integration-test</phase>
+			<goals>
+			    <goal>report</goal>
+			</goals>
+			<configuration>
+			    <dataFile>target/coverage-reports/jacoco-it.exec</dataFile>
+			    <outputDirectory>target/coverage-reports/jacoco-it</outputDirectory>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+	</plugins>
     </build>
 </project>
