@@ -34,11 +34,12 @@ mvn --s src/main/res/.m2/settings.xml -X clean package
 mvn --s src/main/res/.m2/settings.xml help:active-profiles
 ```
 ```
-mvn --settings src/main/res/.m2/settings.xml dependency:get -Dartifact=org.sqlcomponents:sqlcomponents-maven-plugin:1.0-SNAPSHOT
+mvn --settings src/main/res/.m2/settings.xml dependency:get -Dartifact=org.sqlcomponents:maven-plugin:1.0-SNAPSHOT
 ```
 sample-app\src\main\res\.m2\privateaccesstoken.png
 ```
 mvn versions:use-latest-releases
+mvn clean install -X, works with JDK 17.0.2 but not JDK 20.0.1
 ```
 tested -  works on podman too - on 18th Oct 2022
 
